@@ -1,0 +1,8 @@
+js_iso
+
+I spent some time looking at cll_js_iso, then decided to test drive a very simple isometric rendering library.
+
+I'm currently using the AStar pathfinding from cll_js_iso, but it's likely to be rewritten from tests shortly.
+
+cll_js_iso can be found here:
+http://github.com/clindsey/cll_js_iso/tree/master
