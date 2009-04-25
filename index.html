@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>js_iso demo</title>
+	<script src="lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/avatar.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/a_star.js" type="text/javascript" charset="utf-8"></script>
+	
+	<style type="text/css" media="screen">
+		#board {
+			position:relative;
+		}
+	
+		#board div {
+			/*
+			border: solid 1px #8EA1B0;
+			*/
+			background-color:pink;
+			width:1px;
+			height:1px;
+			position:absolute;
+			top:0;
+			left:0;
+			font: normal 9px Helvetica, sans-serif;
+			color:#7C8D9A;
+		}
+	</style>
+	
+</head>
+
+<body>
+
+<div id="board"></div>
+
+<script type="text/javascript" charset="utf-8">
+	var colors = ["#ECD078", "#D95B43", "#C02942", "#542437", "#53777A"];
+	var grid = new Grid(3,3);
+	var zindexer = 0;
+	var randomized_nodes = grid.nodes();
+	//.sort(function() {return 0.5 - Math.random()});
+	
+	function build_grid(x,y) {
+		if (zindexer >= (grid.width() * grid.height())) {
+			return true;
+		}
+		
+		var id_string = 'x_' + x + '_y_' + y;
+		var id = '#' + id_string;
+		
+		//$('#board').append('<div id="' + id_string + '">' + x + ',' + y + '</div>');
+		$('#board').append('<div id="' + id_string + '"></div>');
+		
+		$(id).css({
+			'background-color': colors.sort(function() {return 0.5 - Math.random()})[0],
+			'z-index': zindexer
+		});
+		
+		$(id).animate({
+			width: '25px',
+			height: '25px',
+			left: (x * 25) + 'px',
+			top: (y * 25) + 'px'			
+		}, 50, function() {
+			if (randomized_nodes.length == 0) {
+				return true;
+			}
+			
+			var node = randomized_nodes.pop();
+			zindexer += 1;
+			build_grid(node[0],node[1]);
+		});	
+	}
+	
+	var node = randomized_nodes.pop();
+	build_grid(node[0],node[1]);
+</script>
+
+
+
+
+</body>
+</html>
