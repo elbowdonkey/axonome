@@ -11,22 +11,33 @@
 	<script src="lib/a_star.js" type="text/javascript" charset="utf-8"></script>
 	
 	<style type="text/css" media="screen">
+	/*
 		#board {
 			position:relative;
+			width:100%;
+			height:100%;
 		}
+	*/
 	
-		#board div {
+		div {
 			/*
 			border: solid 1px #8EA1B0;
 			*/
 			background-color:pink;
-			width:1px;
-			height:1px;
+			width:25px;
+			height:25px;
+			/* padding:5px; */
 			position:absolute;
 			top:0;
 			left:0;
 			font: normal 9px Helvetica, sans-serif;
 			color:#7C8D9A;
+			display:block;
+		}
+		
+		img {
+			width:300px;
+			height:300px;
 		}
 	</style>
 	
@@ -34,14 +45,13 @@
 
 <body>
 
-<div id="board"></div>
-
 <script type="text/javascript" charset="utf-8">
-	var colors = ["#ECD078", "#D95B43", "#C02942", "#542437", "#53777A"];
-	var grid = new Grid(3,3);
+	var colors = ["#ECD078", "#53777A", "D95B43", "#C02942", "#542437"];
+	var grid = new Grid(20,20);
+	var pixel_size = 20;
 	var zindexer = 0;
+	var mode = "animated";
 	var randomized_nodes = grid.nodes();
-	//.sort(function() {return 0.5 - Math.random()});
 	
 	function build_grid(x,y) {
 		if (zindexer >= (grid.width() * grid.height())) {
@@ -51,35 +61,52 @@
 		var id_string = 'x_' + x + '_y_' + y;
 		var id = '#' + id_string;
 		
-		//$('#board').append('<div id="' + id_string + '">' + x + ',' + y + '</div>');
-		$('#board').append('<div id="' + id_string + '"></div>');
+		$('body').append('<div id="' + id_string + '"></div>');
 		
-		$(id).css({
-			'background-color': colors.sort(function() {return 0.5 - Math.random()})[0],
-			'z-index': zindexer
-		});
+		var color = colors.shift();
+		colors.push(color);
 		
-		$(id).animate({
-			width: '25px',
-			height: '25px',
-			left: (x * 25) + 'px',
-			top: (y * 25) + 'px'			
-		}, 50, function() {
-			if (randomized_nodes.length == 0) {
-				return true;
-			}
+		if (mode == 'animated') {
+			$(id).css({
+				'background-color': color,
+				'z-index': zindexer + 100
+			});
 			
+			$(id).animate({
+				width: pixel_size + 'px',
+				height: (pixel_size/2) + 'px',
+				left: (x * pixel_size) + 'px',
+				top: (y * (pixel_size/2)) + 'px'			
+			}, 100, function() {
+				if (randomized_nodes.length == 0) {
+					return true;
+				}
+
+				var node = randomized_nodes.pop();
+				zindexer += 1;
+				build_grid(node[0],node[1]);
+			});
+		} else {
+			$(id).css({
+				'background-color': color,
+				'z-index': zindexer + 100,
+				'width': pixel_size + 'px',
+				'height': pixel_size + 'px',
+				'left': (x * pixel_size) + 'px',
+				'top': (y * pixel_size) + 'px'
+			});
+
+
+
 			var node = randomized_nodes.pop();
 			zindexer += 1;
 			build_grid(node[0],node[1]);
-		});	
+		}
 	}
 	
 	var node = randomized_nodes.pop();
 	build_grid(node[0],node[1]);
 </script>
-
-
 
 
 </body>
