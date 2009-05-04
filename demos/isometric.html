@@ -43,7 +43,7 @@
 	</style>
 	
 	<script type="text/javascript" charset="utf-8">
-		function render_map() {
+		$(document).ready(function(){
 			var grid = new Grid(6,6);
 			
 			for (var i=0; i < grid.nodes().length; i++) {
@@ -57,10 +57,6 @@
 					top: (node.top()) + 'px'
 				});
 			};
-		};
-		
-		$(document).ready(function(){
-			render_map();
 		});
 	</script>
 	
