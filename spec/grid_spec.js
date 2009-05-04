@@ -12,9 +12,15 @@ Screw.Unit(function() {
     
     it('should have nodes', function() {
       var nodes = [
-      [0,0],[1,0],[2,0],
-      [0,1],[1,1],[2,1],
-      [0,2],[1,2],[2,2]
+        new Node(0,0, grid),
+        new Node(1,0, grid),
+        new Node(2,0, grid),
+        new Node(0,1, grid),
+        new Node(1,1, grid),
+        new Node(2,1, grid),
+        new Node(0,2, grid),
+        new Node(1,2, grid),
+        new Node(2,2, grid)
       ]
       
       expect(grid.nodes()).to(equal,nodes);
