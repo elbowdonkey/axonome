@@ -26,4 +26,13 @@ Screw.Unit(function() {
       expect(grid.nodes()).to(equal,nodes);
     });
   });
+  
+  describe('Grid; with options', function() {
+    it('should be able to created using options hash', function() {
+      grid = new Grid({width:3, height:3});
+      
+      expect(grid.width()).to(equal,3);
+      expect(grid.height()).to(equal,3);
+    });
+  });
 });
