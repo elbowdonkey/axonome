@@ -1,0 +1,27 @@
+#board {
+	position:relative;
+	width:420px;
+	height:380px;
+	top:20px;
+	left:100px;
+	overflow:hidden;
+}
+
+#board div {
+	width:104px;
+	height:57px;
+	position:absolute;
+	font: normal 9px Helvetica, sans-serif;
+	display:block;
+	background:url('../tile.png') no-repeat top left;
+	position: absolute;
+	overflow:hidden;
+}
+
+span {
+	background-color:#999;
+	color:#795D5D;
+	position:relative;
+	top:20px;
+	left:40px;
+}

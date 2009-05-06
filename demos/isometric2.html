@@ -15,9 +15,19 @@
 	
 	
 	<script type="text/javascript" charset="utf-8">
+		if (location.search.length != 0) {
+			var qs = location.search.substr(1).split("&");
+			var params = {};
+			for (var i=0; i < qs.length; i++) {
+				var key_value = qs[i].split("=");
+				params[key_value[0]] = parseInt(key_value[1]);
+			};
+		}
+		
 		$(document).ready(function(){
 			var grid = new Grid(6,6);
-			var nodes = grid.nodes();
+			var range = params;
+			var nodes = grid.nodes(range);
 			for (var i=0; i < nodes.length; i++) {
 				var node = nodes[i];
 				var id = 'tile_' + node.index();
