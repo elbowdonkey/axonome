@@ -1,17 +1,10 @@
 Screw.Unit(function() {
   var grid;
+  var nodes;
   describe('Grid', function() {
     before(function() {
       grid = new Grid(3,3);
-    });
-    
-    it('should have a width and height', function() {
-      expect(grid.width()).to(equal,3);
-      expect(grid.height()).to(equal,3);
-    });
-    
-    it('should have nodes', function() {
-      var nodes = [
+      nodes = [
         new Node(0,0, grid),
         new Node(1,0, grid),
         new Node(2,0, grid),
@@ -22,11 +15,23 @@ Screw.Unit(function() {
         new Node(1,2, grid),
         new Node(2,2, grid)
       ]
-      
-      expect(grid.nodes()).to(equal,nodes);
+    });
+    
+    it('should have a width and height', function() {
+      expect(grid.width).to(equal,3);
+      expect(grid.height).to(equal,3);
+    });
+    
+    it('should have nodes', function() {
+      expect(grid.nodes).to(equal,nodes);
+    });
+    
+    it('should be able to return a single node when given xy coords', function() {
+      expect(grid.node(0,0)).to(equal,grid.nodes[0]);
     });
   });
   
+  /*
   describe('Grid; with options', function() {
     it('should be able to created using options hash', function() {
       grid = new Grid({width:3, height:3});
@@ -54,4 +59,5 @@ Screw.Unit(function() {
       expect(nodes[3].y).to(equal,1);
     });
   });
+  */
 });

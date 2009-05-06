@@ -49,11 +49,11 @@
 	var grid = new Grid(20,5);
 	var pixel_size = 20;
 	var zindexer = 0;
-	var randomized_nodes = grid.nodes();
+	var randomized_nodes = grid.nodes;
 	var node = randomized_nodes.pop();
 	
 	function build_grid(x,y) {
-		if (zindexer >= (grid.width() * grid.height())) {
+		if (zindexer >= (grid.width * grid.height)) {
 			return true;
 		}
 		

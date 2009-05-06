@@ -1,11 +1,12 @@
 var avatar;
 var grid;
+var node;
 Screw.Unit(function() {
   describe('Avatar', function() {
     before(function() {
       grid = new Grid(3,3);
-      avatar = new Avatar();
-      avatar.grid = grid;
+      avatar = new Avatar(grid);
+      node = grid.nodes[0];
     });
     
     it('know its position on a grid', function() {
@@ -13,7 +14,16 @@ Screw.Unit(function() {
     });
     
     it('has a zindex', function() {
-      expect(avatar.zindex).to(equal,0);
+      expect(avatar.zindex()).to(equal,node.zindex());
+    });
+    
+    it('can determine its xy pixel coords', function() {
+      expect(avatar.left()).to(equal,node.left());
+      expect(avatar.top()).to(equal,node.top());
+    });
+    
+    it('belongs to a node on a grid', function() {
+      expect(avatar.node).to(equal,node);
     });
     
     it('can come up with a path if given start and end coordinates', function() {
@@ -42,7 +52,7 @@ Screw.Unit(function() {
     describe('a* performance', function() {
       before(function() {
         grid = new Grid(100,100);
-        avatar = new Avatar();
+        avatar = new Avatar(grid);
         avatar.grid = grid;
       });
       

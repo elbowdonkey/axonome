@@ -18,6 +18,13 @@
 	overflow:hidden;
 }
 
+#avatar {
+  width:32px;
+  height:34px;
+  position: absolute;
+  background:url('../avatar.png') no-repeat top left;
+}
+
 span {
 	background-color:#999;
 	color:#795D5D;

@@ -1,9 +1,9 @@
 Screw.Unit(function() {
   describe('Node', function() {
     before(function() {
-      grid = new Grid(1,1);
-      node_a = new Node(0,0, grid);
-      node_b = new Node(1,1, grid);
+      grid = new Grid(2,2);
+      node_a = grid.nodes[0];
+      node_b = grid.nodes[3];
     });
     
     it('should belong to a grid', function() {
@@ -22,8 +22,8 @@ Screw.Unit(function() {
     });
             
     it('should have a unique index', function() {
-      var node_a_index = node_a.x + node_a.y * grid.width();
-      var node_b_index = node_b.x + node_b.y * grid.width();
+      var node_a_index = node_a.x + node_a.y * grid.width;
+      var node_b_index = node_b.x + node_b.y * grid.width;
       
       expect(node_a.index()).to(equal,node_a_index);
       expect(node_b.index()).to(equal,node_b_index);
