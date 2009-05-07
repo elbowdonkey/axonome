@@ -13,7 +13,7 @@
 	position:absolute;
 	font: normal 9px Helvetica, sans-serif;
 	display:block;
-	background:url('../tile.png') no-repeat top left;
+	background:url('images/tile.png') no-repeat top left;
 	position: absolute;
 	overflow:hidden;
 }
@@ -22,7 +22,7 @@
   width:32px;
   height:34px;
   position: absolute;
-  background:url('../avatar.png') no-repeat top left;
+  background:url('images/avatar.png') no-repeat top left;
 }
 
 span {

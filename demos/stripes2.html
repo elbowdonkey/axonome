@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>js_iso: animated stripes - no queue</title>
+	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
+	
+	<style type="text/css" media="screen">
+		div {
+			width:1px;
+			height:1px;
+			position:absolute;
+			top:0;
+			left:0;
+			color:#7C8D9A;
+			display:block;
+		}
+	</style>
+	
+</head>
+
+<body>
+
+<script type="text/javascript" charset="utf-8">
+	var colors = ["#ECD078", "#53777A", "D95B43", "#C02942", "#542437"];
+	var grid = new Grid(20,20);
+	var pixel_size = 40;
+	var zindexer = 0;
+	// var nodes = grid.nodes.sort(function() {return 0.5 - Math.random()}); // noise
+	// var nodes = grid.nodes.sort(function(a,b){return a - b}); // stripes
+	var nodes = grid.nodes // stripes
+	var node = nodes.pop();
+	
+	function build_grid(x,y) {
+		if (zindexer >= (grid.width * grid.height)) {
+			return true;
+		}
+		
+		var id = '#tile_' + node.index();
+		
+		$('body').append('<div id="tile_' + node.index() + '"></div>');
+		
+		var color = colors.shift();
+		colors.push(color);
+		
+		$(id).css({
+			backgroundColor: color,			
+			width: pixel_size + 'px',
+			height: (pixel_size) + 'px',
+		});
+		
+		$(id).animate({
+			left: (x * pixel_size) + 'px',
+			top: (y * (pixel_size)) + 'px'			
+		}, 2300);
+		
+		if (nodes.length == 0) {
+			return true;
+		}
+
+		node = nodes.pop();
+		zindexer += 1;
+		build_grid(node.x,node.y);
+	}
+	
+	
+	build_grid(node.x,node.y);
+</script>
+
+
+</body>
+</html>

@@ -4,31 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<title>js_iso: avatar and a* pathfinding</title>
+	<title>js_iso: 6x6 isometric grid</title>
 	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../lib/avatar.js" type="text/javascript" charset="utf-8"></script>
 	
 	<link rel="stylesheet" href="grid.css" type="text/css" media="screen" charset="utf-8">
 	
 	
 	<script type="text/javascript" charset="utf-8">
-		if (location.search.length != 0) {
-			var qs = location.search.substr(1).split("&");
-			var params = {};
-			for (var i=0; i < qs.length; i++) {
-				var key_value = qs[i].split("=");
-				params[key_value[0]] = parseInt(key_value[1]);
-			};
-		}
-		
 		$(document).ready(function(){
 			var grid = new Grid(6,6);
-			var avatar = new Avatar(grid);
-			var range = params;
 			var nodes = grid.nodes;
-			
 			for (var i=0; i < nodes.length; i++) {
 				var node = nodes[i];
 				var id = 'tile_' + node.index();
@@ -40,20 +27,13 @@
 					top: (node.top()) + 'px'
 				});
 			};
-			
-			$('#board').append('<span id="avatar"></span>');
-			$('#avatar').css({
-				zIndex: avatar.zindex(),
-				left: (avatar.left()) + 'px',
-				top: (avatar.top()) + 'px'
-			});
 		});
 	</script>
 	
 </head>
 
 <body>
-	<h3>A 6x6 grid with a bounding box</h3>
+	<h3>6x6 isometric grid</h3>
 	<div id="board"></div>
 </body>
 </html>
