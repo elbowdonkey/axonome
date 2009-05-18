@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<title>js_iso: fractals</title>
+	<title>axono.me: fractals</title>
 	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
@@ -17,6 +17,7 @@
 			position:relative;
 			top:0;
 			left:0;
+			background-color:white;
 		}
 		
 		#board b {
@@ -26,14 +27,16 @@
 			height:5px;
 		}
 	</style>
-	
+	<link rel="stylesheet" href="../axonome.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 
 <body>
+<div class="nav"><a href="http://axono.me">Home</a> | <a href="http://axono.me/demos/index.html">Demos</a> | <a href="http://github.com/elbowdonkey/axonome">github</a></div>
 
-<div id="board"></div>
-<script src="fractals.js" type="text/javascript" charset="utf-8"></script>
-<div style="height:400px;width:300px;position:absolute;right:20px">
+<h3>Rendering fractals</h3>
+<p>There's no reason to ever do this.</p>
+<p>Fiddle with the controls and look at the pixelated thing it makes.</p>
+<div>
 <select onchange="onAlgorithmChange(this);" style="height:100px;width:298px;" size=8>
  <option value="mandelbrot" selected>Mandelbrot Set</option>
  <option value="multibrot3">Multibrot (z^3)</option>
@@ -78,6 +81,9 @@ Color scheme: <select onchange="onColorChange(this);">
  <option value="yellow">Yellow</option>
 </select>
 </div>
+
+<div id="board"></div>
+<script src="fractals.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

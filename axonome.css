@@ -1,0 +1,21 @@
+body {
+	padding:10px 30px;
+	font: normal 95%/1.5em Helvetica, Arial, sans-serif;
+	background-color:#C2E7E8;
+}
+
+h1 {
+	color:#CA411A;
+}
+
+h2 {
+	color:#224041;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}

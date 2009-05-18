@@ -21,6 +21,19 @@ Screw.Unit(function() {
     });
   });
   
+  describe('options', function() {
+    it('accepts tile size options hash', function() {
+      $('#dom_test').append('<div id="options_grid"></div>');
+      iso = new Iso(5,5, '#options_grid', {tile_width: 32, tile_height: 34});
+      iso.render();
+      tiles = $('#options_grid > div');
+      avatar = $('#avatar');
+      
+      //expect(iso.tile_width).to(equal, 32);
+      //expect(iso.tile_height).to(equal, 34);
+    });
+  });
+  
   describe('rendering', function() {
     var tiles, avatar;
     before(function() {

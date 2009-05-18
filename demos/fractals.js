@@ -388,6 +388,9 @@
   	var time = new Date().getTime();
   	var grid = new Grid(w,h);
   	var pixels = grid.nodes;
+  	
+    $('#board').css('width',(w*5));
+    $('#board').css('height',(h*5));
     
   	var mi = Math.max(startit, Math.round(Math.max(Math.log(zoom),1) * startit));
   	var itfac = 1/mi*startit

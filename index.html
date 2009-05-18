@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>axono.me - axono.you</title>
+		<link rel="stylesheet" href="axonome.css" type="text/css" media="screen" charset="utf-8">
+		<style type="text/css" media="screen">
+			#example {
+				padding:5px;
+				width:26em;
+				background-color: #191A1B;
+			}
+			
+			#board {
+				float:left;
+				position:relative;
+				margin-left:135px;
+				overflow:visible;
+				font-size:0.1em;
+			}
+
+			#board div {
+				width:32px;
+				height:34px;
+				position:absolute;
+				display:block;
+				background:url('demos/images/avatar.png') no-repeat top left;
+				position: absolute;
+				overflow:hidden;
+			}
+			
+		</style>
+		<link rel="stylesheet" href="twilight.css" type="text/css" media="screen" charset="utf-8">
+		
+		<script src="lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/grid.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/node.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/a_star.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/avatar.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/iso.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function(){
+				var iso = new Iso(3,3,'x',{tile_width: 34, tile_height: 20});
+				var grid = iso.grid;
+				var nodes = grid.nodes;
+				
+				for (var i=0; i < nodes.length; i++) {
+					var node = nodes[i];
+					var id = 'tile_' + node.index();
+
+					$('#board').append('<div id="' + id + '"></div>');
+					$('#' + id).css({
+						zIndex: node.zindex(),
+						left: (node.left()) + 'px',
+						top: (node.top()) + 'px'
+					});
+				};
+				
+				function undulate() {
+					if (index_count >= nodes.length) {
+						index_count = 0;
+					}
+					
+					var move_by = parseInt(Math.random() * 10)+4;
+					
+					$('#tile_' + index_count)
+					.animate({
+						top: '-=' + move_by
+					}, 200, function (){
+						$('#tile_' + index_count)
+						.animate({
+							top: '+=' + move_by
+						}, 200, function () {
+							index_count += 1;
+							undulate();
+						});
+					});
+				}
+				
+				var index_count = 0;
+				undulate();
+			});
+		</script>
+		
+	</head>
+	<body>
+		<h1 style="float:left">axono.me</h1>
+		<div id="board"></div>
+		<p style="clear:both;"><a href="http://github.com/elbowdonkey/axonome">http://github.com/elbowdonkey/axonome</a></p>
+		<p>axono.me is a lightweight Javascript isometric pixel art grid library.</p>
+		
+		<ul>
+			<li>fully test driven using <a href="http://github.com/nathansobo/screw-unit">Screw Unit</a>;</li>
+			<li>small, essentials-only footprint;</li>
+		</ul>
+
+
+		<h2>Examples</h2>
+
+		<p>Here's how you'd render a 6x6 isometric grid using jQuery.</p>
+		<div id="example">
+<pre class="textmate-source twilight"><span class='linenum'>    1</span> <span class="text text_html text_html_basic"><span class="source source_js source_js_embedded source_js_embedded_html"><span class="keyword keyword_operator keyword_operator_js">$</span><span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="support support_class support_class_js">document</span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span><span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>ready<span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="storage storage_type storage_type_js">function</span><span class="meta meta_brace meta_brace_round meta_brace_round_js">()</span><span class="meta meta_brace meta_brace_curly meta_brace_curly_js">{</span>
+<span class='linenum'>    2</span>    <span class="storage storage_type storage_type_js">var</span> iso <span class="keyword keyword_operator keyword_operator_js">=</span> <span class="meta meta_class meta_class_instance meta_class_instance_constructor"><span class="keyword keyword_operator keyword_operator_new keyword_operator_new_js">new</span> <span class="entity entity_name entity_name_type entity_name_type_instance entity_name_type_instance_js">Iso</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="constant constant_numeric constant_numeric_js">6</span><span class="meta meta_delimiter meta_delimiter_object meta_delimiter_object_comma meta_delimiter_object_comma_js">,</span><span class="constant constant_numeric constant_numeric_js">6</span><span class="meta meta_delimiter meta_delimiter_object meta_delimiter_object_comma meta_delimiter_object_comma_js">,</span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>#board<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span><span class="punctuation punctuation_terminator punctuation_terminator_statement punctuation_terminator_statement_js">;</span>
+<span class='linenum'>    3</span>    <span class="storage storage_type storage_type_js">var</span> grid <span class="keyword keyword_operator keyword_operator_js">=</span> iso<span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>grid<span class="punctuation punctuation_terminator punctuation_terminator_statement punctuation_terminator_statement_js">;</span>
+<span class='linenum'>    4</span>    iso<span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>render<span class="meta meta_brace meta_brace_round meta_brace_round_js">()</span><span class="punctuation punctuation_terminator punctuation_terminator_statement punctuation_terminator_statement_js">;</span>
+<span class='linenum'>    5</span><span class="meta meta_brace meta_brace_curly meta_brace_curly_js">}</span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span><span class="punctuation punctuation_terminator punctuation_terminator_statement punctuation_terminator_statement_js">;</span></span></span></pre>
+		</div>
+		<p>The Iso object handles rendering as well as representing the grid as Javascript objects.</p>
+
+		<p>See the <a href="http://axono.me/demos">demos</a> for more examples.</p>
+
+		<h2>Why axono.me?</h2>
+
+		<p>Most of the pixel art we see today is said to be represented in an isometric projection. Though, in truth, it's actually done in dimetric projection, both isometric and dimetric projections are consider kinds of axonometric projections.</p>
+
+		<p>axono.me has been designed to render axonometric projections. Though it works fine for any kind of grid. Check out the demos for examples of non-axonometric projections.</p>
+
+		<h2>Useful resources</h2>
+
+		<ul>
+		<li><a href="http://www.compuphase.com/axometr.htm">http://www.compuphase.com/axometr.htm</a></li>
+		<li><a href="http://www-cs-students.stanford.edu/~amitp/game-programming/grids/">http://www-cs-students.stanford.edu/~amitp/game-programming/grids/</a></li>
+		</ul>
+	</body>
+</html>
