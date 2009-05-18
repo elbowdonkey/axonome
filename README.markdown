@@ -1,4 +1,4 @@
-js_iso is a lightweight Javascript isometric pixel art grid library
+axono.me is a lightweight Javascript isometric pixel art grid library.
 
 * fully test driven using Screw Unit;
 * small, essentials-only footprint;
@@ -8,24 +8,20 @@ js_iso is a lightweight Javascript isometric pixel art grid library
 Here's how you'd render a 6x6 isometric grid using jQuery.
 
     $(document).ready(function(){
-			var grid = new Grid(6,6);
-			
-			for (var i=0; i < grid.nodes().length; i++) {
-				var node = grid.nodes()[i];
-				var id = 'tile_' + node.index();
-
-				$('#board').append('<div id="' + id + '"><span>' + id + '</span></div>');
-				$('#' + id).css({
-					zIndex: node.zindex(),
-					left: (node.left()) + 'px',
-					top: (node.top()) + 'px'
-				});
-			};
+			var iso = new Iso(6,6,'#board');
+			var grid = iso.grid;
+			iso.render();
 		});
 
-We create a Grid object, then iterate over its nodes, using each node's attributes to tell us how to position the node within the #board div.
+The Iso object handles rendering as well as representing the grid as Javascript objects.
 
-See the demos for more examples.
+See the <a href="http://axono.me/demos">demos</a> for more examples.
+
+# Why axono.me?
+
+Most of the pixel art we see today is said to be represented in an isometric projection. Though, in truth, it's actually done in dimetric projection, both isometric and dimetric projections are consider kinds of axonometric projections.
+
+axono.me has been designed to render axonometric projections. Though it works fine for any kind of grid. Check out the demos for examples of non-axonometric projections.
 
 # Useful resources
 

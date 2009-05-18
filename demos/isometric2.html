@@ -16,6 +16,8 @@
 		$(document).ready(function(){
 			var grid = new Grid(6,6);
 			var nodes = grid.range(2,2,4,4);
+			
+			// normally we'd do iso.render(), but we can render 'manually' as well.
 			for (var i=0; i < nodes.length; i++) {
 				var node = nodes[i];
 				var id = 'tile_' + node.index();

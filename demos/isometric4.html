@@ -16,11 +16,9 @@
 	
 	
 	<script type="text/javascript" charset="utf-8">
-		var grid;
-		
 		$(document).ready(function(){
-			iso = new Iso(6,6,'#board');
-			grid = iso.grid;
+			var iso = new Iso(6,6,'#board');
+			var grid = iso.grid;
 			iso.render();
 			
 			function check_key(e) {
