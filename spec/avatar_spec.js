@@ -14,7 +14,7 @@ Screw.Unit(function() {
     });
     
     it('has a zindex', function() {
-      expect(avatar.zindex()).to(equal,node.zindex());
+      expect(avatar.zindex()).to(equal,node.zindex()+10000);
     });
     
     it('can determine its xy pixel coords', function() {
@@ -23,7 +23,7 @@ Screw.Unit(function() {
     });
     
     it('belongs to a node on a grid', function() {
-      expect(avatar.node).to(equal,node);
+      expect(avatar.node()).to(equal,node);
     });
     
     it('can come up with a path if given start and end coordinates', function() {
@@ -35,8 +35,10 @@ Screw.Unit(function() {
     it('can change its position, one path node at a time, until it reaches the end', function() {
       avatar.determine_path(0,0,2,2);
       avatar.step();
+      expect(avatar.node()).to(equal,grid.node(1,1));
       expect(avatar.position).to(equal, [1,1]);
       avatar.step();
+      expect(avatar.node()).to(equal,grid.node(2,2));
       expect(avatar.position).to(equal, [2,2]);
     });
     

@@ -26,3 +26,8 @@ Here's how you'd render a 6x6 isometric grid using jQuery.
 We create a Grid object, then iterate over its nodes, using each node's attributes to tell us how to position the node within the #board div.
 
 See the demos for more examples.
+
+# Useful resources
+
+* http://www.compuphase.com/axometr.htm
+* http://www-cs-students.stanford.edu/~amitp/game-programming/grids/

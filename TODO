@@ -1,0 +1,17 @@
+- zindex. painful. there's no fix in getting fancy with conditionally using one
+zindex over another when move "up" - the problem is that the zindex is applied
+before the avatar element has moved out of it's previous node.
+
+a smarter fix would be to ask "are my bottom edges equal to or greater than
+the bottom edges of the node i'm entering - if they are, that's the time to adjust
+my zindex".
+
+only a problem with following a pathway smoothly, of course.
+
+to be fair, "base" tiles should always have a lower z-index than the avatar.
+
+but the zindex problem reappears when items are placed on base tiles (like
+buildings).
+
+ideas:
+look at flash book for zindex stuff

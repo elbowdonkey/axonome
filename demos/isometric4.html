@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>js_iso: avatar trigonomnom</title>
+	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/a_star.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/avatar.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/iso.js" type="text/javascript" charset="utf-8"></script>
+	
+	<link rel="stylesheet" href="grid.css" type="text/css" media="screen" charset="utf-8">
+	
+	
+	<script type="text/javascript" charset="utf-8">
+		var grid;
+		
+		$(document).ready(function(){
+			iso = new Iso(6,6,'#board');
+			grid = iso.grid;
+			iso.render();
+			
+			function check_key(e) {
+			    switch (e.keyCode) {
+			    case 40:
+						iso.change_avatar_y(1);
+			      break;
+			    case 38:
+						iso.change_avatar_y(-1);
+			      break;
+			    case 37:
+						iso.change_avatar_x(-1);
+						break;
+			    case 39:
+						iso.change_avatar_x(1);
+						break;
+			    }
+			}
+			$(document).keydown (check_key);
+		});
+		
+		
+	</script>
+	
+</head>
+
+<body>
+	<h3>A 6x6 grid with a bounding box</h3>
+	<p>Use your arrow keys.</p>
+	<div id="board"></div>
+</body>
+</html>

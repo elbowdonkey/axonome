@@ -1,10 +1,16 @@
+#debug {
+  position:absolute;
+  width:200px;
+  right:20px;
+}
+
 #board {
 	position:relative;
 	width:420px;
 	height:380px;
-	top:20px;
-	left:100px;
-	overflow:hidden;
+	top:0px;
+	left:262px;
+	overflow:visible;
 }
 
 #board div {
@@ -18,7 +24,13 @@
 	overflow:hidden;
 }
 
+#board div:hover {
+  background:url('images/highlight.png') no-repeat top left;
+}
+
 #avatar {
+  top:0px;
+  left:0px;
   width:32px;
   height:34px;
   position: absolute;
@@ -26,9 +38,12 @@
 }
 
 span {
-	background-color:#999;
+  width:62px;
+  height: 20px;
+  display:block;
 	color:#795D5D;
 	position:relative;
-	top:20px;
-	left:40px;
+	top:17px;
+	left:20px;
+	cursor: pointer;
 }
