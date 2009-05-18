@@ -19,3 +19,10 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+#license {
+  padding:1em;
+  margin:3em 1em 1em;
+  border: solid 1px #B0C9CB;
+  background-color:#DCE7E7;
+}
