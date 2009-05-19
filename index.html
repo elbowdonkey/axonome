@@ -54,11 +54,27 @@
 						left: (node.left()) + 'px',
 						top: (node.top()) + 'px'
 					});
+					
+					$('#' + id).hover(
+						function() {
+							var pop = parseInt(Math.random() * 10)+4;
+							$(this).animate({
+								top: '-=' + pop
+							}, 200)
+							.animate({
+								top: '+=' + pop
+							}, 200);
+						},
+						function() {
+							
+						}
+					);
 				};
 				
 				function undulate() {
 					if (index_count >= nodes.length) {
 						index_count = 0;
+						return true;
 					}
 					
 					var move_by = parseInt(Math.random() * 10)+4;
