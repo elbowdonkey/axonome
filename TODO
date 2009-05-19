@@ -1,5 +1,5 @@
 - refactor/cleanup tests, remove orphaned/unused code
 - test drive a*
-- introduce layers (base tiles with other tiles on top)
 - introduce unwalkable tiles
 - introduce object collision (avatar on base tile bumps into a tile on same level is a collision)
+- avatar zindexes aren't very functional - they need the same treatment as nodes

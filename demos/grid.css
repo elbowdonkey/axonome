@@ -14,6 +14,8 @@
 }
 
 #board div {
+  top:0;
+  left:0;
 	width:104px;
 	height:57px;
 	position:absolute;
@@ -46,4 +48,16 @@
 	top:17px;
 	left:20px;
 	cursor: pointer;
+}
+
+#board div.dirt {
+	background:url('images/dirt.png') no-repeat top left;
+}
+
+#board div.dirt span {
+  color:#BE8446; 
+}
+
+#board div.cheddar {
+	background:url('images/cheddar.png') no-repeat top left;
 }
