@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>axono.me: Race</title>
+	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/a_star.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/avatar.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/iso.js" type="text/javascript" charset="utf-8"></script>
+	
+	<link rel="stylesheet" href="../axonome.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="grid.css" type="text/css" media="screen" charset="utf-8">
+	
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			var iso = new Iso(40,3, '#track', {tile_width: 16, tile_height: 8});
+			var grid = iso.grid;
+			var nodes = grid.nodes;
+			
+			for (var i=0; i < nodes.length; i++) {
+				var node = nodes[i];
+				var id = 'tile_' + node.index() + '_' + node.z;
+      
+				$('#track').append('<div id="' + id + '"></div>');
+				$('#' + id).css({
+					zIndex: node.depth,
+					left: (node.left()) + 'px',
+					top: (node.top()) + 'px'
+				});
+			};
+			
+			var shadows = [
+				new Node(0,0,grid,{z: 1, tile_height:8, tile_width: 16}),
+				new Node(0,1,grid,{z: 1, tile_height:8, tile_width: 16}),
+				new Node(0,2,grid,{z: 1, tile_height:8, tile_width: 16})
+			];
+			
+			for (var i=0; i < shadows.length; i++) {
+				var node = shadows[i];
+				var id = 'shadow_' + node.index();
+      
+				$('#track').append('<i id="' + id + '"></i>');
+				$('#' + id).css({
+					zIndex: node.depth,
+					left: (node.left()) + 'px',
+					top: (node.top()) + 'px'
+				});
+			};
+			
+			
+			var racers = [
+				new Node(0,0,grid,{z: 2, tile_height:8, tile_width: 16}),
+				new Node(0,1,grid,{z: 2, tile_height:8, tile_width: 16}),
+				new Node(0,2,grid,{z: 2, tile_height:8, tile_width: 16})
+			];
+							
+			$('#track').append('<b class="cube_0" id="red"></b>');
+			$('#red').css({
+				zIndex: racers[0].depth,
+				left: (racers[0].left()) + 'px',
+				top: (racers[0].top()) + 'px'
+			});
+						
+			$('#track').append('<b class="cube_1" id="blue"></b>');
+			$('#blue').css({
+				zIndex: racers[1].depth,
+				left: (racers[1].left()) + 'px',
+				top: (racers[1].top()) + 'px'
+			});
+			
+			$('#track').append('<b class="cube_2" id="orange"></b>');
+			$('#orange').css({
+				zIndex: racers[2].depth,
+				left: (racers[2].left()) + 'px',
+				top: (racers[2].top()) + 'px'
+			});
+			
+			function race() {
+				var racer_index = [0,1,2].sort(function() {return 0.5 - Math.random()})[0];
+				var racer = racers[racer_index];
+				var racer_element = $('.cube_' + racer_index);
+				var shadow = shadows[racer_index];
+				var shadow_element = $('#shadow_' + (racer_index * 40));
+				var travel = Math.ceil((Math.random()*5) + 1);
+				racer.x += travel;
+				shadow.x += travel;
+				
+				if (racer.x > grid.width+1) {
+					$('#who').html('The ' + racer_element[0].id + ' cube wins!');
+					return true;
+				} else {
+					shadow_element.css({
+						zIndex: shadow.zindex()
+					}).animate({
+						left: shadow.left(),
+						top: shadow.top()
+					}, 100);
+					
+					racer_element.css({
+						zIndex: racer.zindex()
+					})
+					.animate({
+						top: '-=32',
+						left: '+=16'
+					}, 100)
+					.animate({
+						left: racer.left(),
+						top: racer.top()
+					}, 100, function() {
+						race();
+					});
+				}
+			}
+			
+			race();
+			
+		});
+	</script>
+	
+</head>
+
+<body>
+	<div class="nav"><a href="http://axono.me">Home</a> | <a href="http://axono.me/demos/index.html">Demos</a> | <a href="http://github.com/elbowdonkey/axonome">github</a></div>
+	<h3>Race</h3>
+	<p id="who">Who will win?</p>
+	<div id="track"></div>
+	
+	<div id="license"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://creativecommons.org/images/public/somerights20.png" /></a><br /><span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">axono.me</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://axono.me" property="cc:attributionName" rel="cc:attributionURL">Michael Buffington</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a>.</p></div>
+</body>
+</html>
