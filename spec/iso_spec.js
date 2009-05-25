@@ -29,8 +29,8 @@ Screw.Unit(function() {
       tiles = $('#options_grid > div');
       avatar = $('#avatar');
       
-      //expect(iso.tile_width).to(equal, 32);
-      //expect(iso.tile_height).to(equal, 34);
+      expect(iso.nodes[0].width).to(equal, 32);
+      expect(iso.nodes[0].height).to(equal, 34);
     });
   });
   

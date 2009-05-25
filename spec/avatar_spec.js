@@ -67,10 +67,12 @@ Screw.Unit(function() {
     describe("Multiple avatars", function() {
       var avatar_a;
       var avatar_b;
+      var iso;
       before(function() {
-        grid = new Grid(3,3);
-        avatar_a = new Avatar(grid);
-        avatar_b = new Avatar(grid);
+        $('#dom_test').append('<div id="options_grid"></div>');
+        iso = new Iso(3,3, '#dom_test', {avatars: 2});
+        avatar_a = iso.avatars[0];
+        avatar_b = iso.avatars[1];
       });
       
       it('avatars can be positioned independently', function() {
