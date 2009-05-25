@@ -41,7 +41,7 @@ Screw.Unit(function() {
       iso = new Iso(5,5, '#iso_grid');
       iso.render();
       tiles = $('#iso_grid > div');
-      avatar = $('#avatar');
+      avatar = $('#avatar_0');
     });
     
     it('renders a 5x5 grid comprised of divs', function() {

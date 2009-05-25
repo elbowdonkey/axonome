@@ -30,7 +30,7 @@
   background:url('images/highlight.png') no-repeat top left;
 }
 
-#avatar {
+.avatar {
   top:0px;
   left:0px;
   width:32px;
