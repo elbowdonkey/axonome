@@ -25,16 +25,16 @@
 			function check_key(e) {
 			    switch (e.keyCode) {
 			    case 40:
-						iso.change_avatar_y(1);
+						iso.change_avatar(1,'y');
 			      break;
 			    case 38:
-						iso.change_avatar_y(-1);
+						iso.change_avatar(-1,'y');
 			      break;
 			    case 37:
-						iso.change_avatar_x(-1);
+						iso.change_avatar(-1,'x');
 						break;
 			    case 39:
-						iso.change_avatar_x(1);
+						iso.change_avatar(1,'x');
 						break;
 			    }
 			}

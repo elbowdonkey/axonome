@@ -55,61 +55,61 @@ Screw.Unit(function() {
     });
     
     it('step by step walks a 3x3 square', function() {
-      iso.change_avatar_y(1);
+      iso.change_avatar(1,'y');
       expect(iso.avatar.left()).to(equal, -52);
       expect(iso.avatar.top()).to(equal, 26);
-      iso.change_avatar_y(1);
+      iso.change_avatar(1,'y');
       expect(iso.avatar.left()).to(equal, -104);
       expect(iso.avatar.top()).to(equal, 52);
-      iso.change_avatar_y(1);
+      iso.change_avatar(1,'y');
       expect(iso.avatar.left()).to(equal, -156);
       expect(iso.avatar.top()).to(equal, 78);
       
-      iso.change_avatar_x(1);
+      iso.change_avatar(1,'x');
       expect(iso.avatar.left()).to(equal, -104);
       expect(iso.avatar.top()).to(equal, 104);
-      iso.change_avatar_x(1);
+      iso.change_avatar(1,'x');
       expect(iso.avatar.left()).to(equal, -52);
       expect(iso.avatar.top()).to(equal, 130);
-      iso.change_avatar_x(1);
+      iso.change_avatar(1,'x');
       expect(iso.avatar.left()).to(equal, 0);
       expect(iso.avatar.top()).to(equal, 156);
       
-      iso.change_avatar_y(-1);
+      iso.change_avatar(-1,'y');
       expect(iso.avatar.left()).to(equal, 52);
       expect(iso.avatar.top()).to(equal, 130);
-      iso.change_avatar_y(-1);
+      iso.change_avatar(-1,'y');
       expect(iso.avatar.left()).to(equal, 104);
       expect(iso.avatar.top()).to(equal, 104);
-      iso.change_avatar_y(-1);
+      iso.change_avatar(-1,'y');
       expect(iso.avatar.left()).to(equal, 156);
       expect(iso.avatar.top()).to(equal, 78);
       
-      iso.change_avatar_x(-1);
+      iso.change_avatar(-1,'x');
       expect(iso.avatar.left()).to(equal, 104);
       expect(iso.avatar.top()).to(equal, 52);
-      iso.change_avatar_x(-1);
+      iso.change_avatar(-1,'x');
       expect(iso.avatar.left()).to(equal, 52);
       expect(iso.avatar.top()).to(equal, 26);
-      iso.change_avatar_x(-1);
+      iso.change_avatar(-1,'x');
       expect(iso.avatar.left()).to(equal, 0);
       expect(iso.avatar.top()).to(equal, 0);
     });
     
     it('3 steps at a time walks a 3x3 square', function() {
-      iso.change_avatar_y(3);
+      iso.change_avatar(3,'y');
       expect(iso.avatar.left()).to(equal, -156);
       expect(iso.avatar.top()).to(equal, 78);
       
-      iso.change_avatar_x(3);
+      iso.change_avatar(3,'x');
       expect(iso.avatar.left()).to(equal, 0);
       expect(iso.avatar.top()).to(equal, 156);
       
-      iso.change_avatar_y(-3);
+      iso.change_avatar(-3,'y');
       expect(iso.avatar.left()).to(equal, 156);
       expect(iso.avatar.top()).to(equal, 78);
       
-      iso.change_avatar_x(-3);
+      iso.change_avatar(-3,'x');
       expect(iso.avatar.left()).to(equal, 0);
       expect(iso.avatar.top()).to(equal, 0);
     });
@@ -118,10 +118,10 @@ Screw.Unit(function() {
       var x_limit = iso.max_x-1;
       iso.avatar.position = [0,0];
       
-      iso.change_avatar_x(x_limit);
+      iso.change_avatar(x_limit,'x');
       expect(iso.avatar.position).to(equal, [x_limit,0]);
       
-      iso.change_avatar_x(1);
+      iso.change_avatar(1,'x');
       expect(iso.avatar.position).to(equal, [x_limit,0]);
     });
     
@@ -129,10 +129,10 @@ Screw.Unit(function() {
       var y_limit = iso.max_y-1;
       iso.avatar.position = [0,0];
       
-      iso.change_avatar_y(y_limit);
+      iso.change_avatar(y_limit,'y');
       expect(iso.avatar.position).to(equal, [0,y_limit]);
       
-      iso.change_avatar_y(1);
+      iso.change_avatar(1,'y');
       expect(iso.avatar.position).to(equal, [0,y_limit]);
     });
   });
