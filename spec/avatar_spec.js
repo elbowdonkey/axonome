@@ -64,5 +64,27 @@ Screw.Unit(function() {
       })
     });
     
+    describe("Multiple avatars", function() {
+      var avatar_a;
+      var avatar_b;
+      before(function() {
+        grid = new Grid(3,3);
+        avatar_a = new Avatar(grid);
+        avatar_b = new Avatar(grid);
+      });
+      
+      it('avatars can be positioned independently', function() {
+        expect(avatar_a.position).to(equal,[0,0]);
+        expect(avatar_b.position).to(equal,[0,0]);
+        
+        avatar_a.determine_path(0,0,2,2);
+        avatar_a.follow();
+        expect(avatar_a.position).to(equal, [2,2]);
+        
+        avatar_b.determine_path(0,0,0,2);
+        avatar_b.follow();
+        expect(avatar_b.position).to(equal, [0,2]);
+      });
+    });
   });
 });
