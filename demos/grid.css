@@ -24,6 +24,10 @@
 	background:url('images/tile.png') no-repeat top left;
 	position: absolute;
 	overflow:hidden;
+	padding-left:20px;
+	padding-top:17px;
+	color:#795D5D;
+	cursor: pointer;
 }
 
 #board div:hover {
@@ -67,7 +71,7 @@
 	width:420px;
 	height:380px;
 	top:0px;
-	left:10px;
+	left:280px;
 	overflow:visible;
 }
 
@@ -88,7 +92,7 @@
   display:none;
 }
 
-#track b, #track i {
+#track span, #track i {
   top:0;
   left:0;
 	width:16px;
@@ -98,18 +102,18 @@
 	position: absolute;
 }
 
-#track i {
+#track .shadow {
   background:url('images/cube_shadow.png') no-repeat top left;
 }
 
-#red {
+#track #avatar_0 {
   background:url('images/cube_red.png') no-repeat top left;
 }
 
-#blue {
+#track #avatar_1 {
   background:url('images/cube_blue.png') no-repeat top left;
 }
 
-#orange {
+#track #avatar_2 {
   background:url('images/cube_orange.png') no-repeat top left;
 }

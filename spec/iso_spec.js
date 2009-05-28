@@ -1,139 +1,117 @@
 Screw.Unit(function() {
-  var iso;
   describe('Iso', function() {
+    var board;
     before(function() {
-      $('#dom_test').append('<div id="iso_grid"></div>');
-      iso = new Iso(10,10, '#iso_grid');
+      $('body').append('<div id="board"></div>');
+      board = $('#board').iso();
+    });
+    
+    after(function() {
+      $('#board').remove();
     });
     
     it('creates an object with a grid and avatar', function() {
-      iso = new Iso;
-      expect(iso.grid).to(be_a, Grid);
-      expect(iso.avatar).to(be_an, Avatar);
+      expect(board.iso.grid).to(be_a, Grid);
+      expect(board.iso.avatar).to(be_an, Avatar);
     });
     
-    it('creates a 10x10 object representing an isometric map', function() {
-      expect(iso.max_x).to(equal, 10);
-      expect(iso.max_y).to(equal, 10);
-      expect(iso.grid.width).to(equal, 10);
-      expect(iso.grid.height).to(equal, 10);
-      expect(iso.nodes.length).to(equal, 100);
+    it('creates a 6x6 object representing an isometric map', function() {
+      expect(board.iso.defaults.max_x).to(equal, 6);
+      expect(board.iso.defaults.max_y).to(equal, 6);
+      expect(board.iso.grid.width).to(equal, 6);
+      expect(board.iso.grid.height).to(equal, 6);
+      expect(board.iso.nodes.length).to(equal, 36);
     });
   });
   
   describe('options', function() {
+    var board;
+    before(function() {
+      $('body').append('<div id="board"></div>');
+    });
+    
+    after(function() {
+      $('#board').remove();
+    });
+    
     it('accepts tile size options hash', function() {
-      $('#dom_test').append('<div id="options_grid"></div>');
-      iso = new Iso(5,5, '#options_grid', {tile_width: 32, tile_height: 34});
-      iso.render();
-      tiles = $('#options_grid > div');
-      avatar = $('#avatar');
-      
-      expect(iso.nodes[0].width).to(equal, 32);
-      expect(iso.nodes[0].height).to(equal, 34);
+      board = $('#board').iso({tile_width: 32, tile_height: 34});
+      expect(board.iso.nodes[0].width).to(equal, 32);
+      expect(board.iso.nodes[0].height).to(equal, 34);
+    });
+    
+    it('accepts avatar offset options', function() {
+      board = $('#board').iso({avatar_offset: [10,10]});
+      expect(board.iso.defaults.avatar_offset).to(equal, [10,10]);
     });
   });
   
   describe('rendering', function() {
-    var tiles, avatar;
+    var board;
     before(function() {
-      $('#dom_test').append('<div id="iso_grid"></div>');
-      iso = new Iso(5,5, '#iso_grid');
-      iso.render();
-      tiles = $('#iso_grid > div');
-      avatar = $('#avatar_0');
+      $('body').append('<div id="board"></div>');
+      board = $('#board').iso({animate:false});
     });
     
-    it('renders a 5x5 grid comprised of divs', function() {
-      expect(tiles.length).to(equal, 25);
+    after(function() {
+      $('#board').remove();
+    });
+    
+    it('renders a 6x6 grid comprised of divs', function() {
+      expect($('#board > div').length).to(equal, 36);
     });
     
     it('renders an avatar', function() {
-      expect(avatar.length).to(equal, 1);
-      expect(iso.avatar.left()).to(equal, 0);
-      expect(iso.avatar.top()).to(equal, 0);
+      expect($('#avatar_0').length).to(equal, 1);
+      expect(board.iso.avatar.left()).to(equal, 0);
+      expect(board.iso.avatar.top()).to(equal, 0);
     });
     
-    it('step by step walks a 3x3 square', function() {
-      iso.change_avatar(1,'y');
-      expect(iso.avatar.left()).to(equal, -52);
-      expect(iso.avatar.top()).to(equal, 26);
-      iso.change_avatar(1,'y');
-      expect(iso.avatar.left()).to(equal, -104);
-      expect(iso.avatar.top()).to(equal, 52);
-      iso.change_avatar(1,'y');
-      expect(iso.avatar.left()).to(equal, -156);
-      expect(iso.avatar.top()).to(equal, 78);
+    it('walks a 3x3 square', function() {
+      waypoints = [
+        board.iso.grid.node(2,0),
+        board.iso.grid.node(2,2),
+        board.iso.grid.node(0,2),
+        board.iso.grid.node(0,0)
+      ];
       
-      iso.change_avatar(1,'x');
-      expect(iso.avatar.left()).to(equal, -104);
-      expect(iso.avatar.top()).to(equal, 104);
-      iso.change_avatar(1,'x');
-      expect(iso.avatar.left()).to(equal, -52);
-      expect(iso.avatar.top()).to(equal, 130);
-      iso.change_avatar(1,'x');
-      expect(iso.avatar.left()).to(equal, 0);
-      expect(iso.avatar.top()).to(equal, 156);
+      $('#tile_' + waypoints[0].index()).click();
+      expect(board.iso.avatar.position).to(equal, [2,0]);
       
-      iso.change_avatar(-1,'y');
-      expect(iso.avatar.left()).to(equal, 52);
-      expect(iso.avatar.top()).to(equal, 130);
-      iso.change_avatar(-1,'y');
-      expect(iso.avatar.left()).to(equal, 104);
-      expect(iso.avatar.top()).to(equal, 104);
-      iso.change_avatar(-1,'y');
-      expect(iso.avatar.left()).to(equal, 156);
-      expect(iso.avatar.top()).to(equal, 78);
+      $('#tile_' + waypoints[1].index()).click();
+      expect(board.iso.avatar.position).to(equal, [2,2]);
       
-      iso.change_avatar(-1,'x');
-      expect(iso.avatar.left()).to(equal, 104);
-      expect(iso.avatar.top()).to(equal, 52);
-      iso.change_avatar(-1,'x');
-      expect(iso.avatar.left()).to(equal, 52);
-      expect(iso.avatar.top()).to(equal, 26);
-      iso.change_avatar(-1,'x');
-      expect(iso.avatar.left()).to(equal, 0);
-      expect(iso.avatar.top()).to(equal, 0);
-    });
-    
-    it('3 steps at a time walks a 3x3 square', function() {
-      iso.change_avatar(3,'y');
-      expect(iso.avatar.left()).to(equal, -156);
-      expect(iso.avatar.top()).to(equal, 78);
+      $('#tile_' + waypoints[2].index()).click();
+      expect(board.iso.avatar.position).to(equal, [0,2]);
       
-      iso.change_avatar(3,'x');
-      expect(iso.avatar.left()).to(equal, 0);
-      expect(iso.avatar.top()).to(equal, 156);
-      
-      iso.change_avatar(-3,'y');
-      expect(iso.avatar.left()).to(equal, 156);
-      expect(iso.avatar.top()).to(equal, 78);
-      
-      iso.change_avatar(-3,'x');
-      expect(iso.avatar.left()).to(equal, 0);
-      expect(iso.avatar.top()).to(equal, 0);
+      $('#tile_' + waypoints[3].index()).click();
+      expect(board.iso.avatar.position).to(equal, [0,0]);
     });
     
     it('disallows attempts to travel beyond grid x', function() {
-      var x_limit = iso.max_x-1;
-      iso.avatar.position = [0,0];
+      var x_limit = board.iso.defaults.max_x-1;      
+      expect(x_limit).to(equal, 5);
       
-      iso.change_avatar(x_limit,'x');
-      expect(iso.avatar.position).to(equal, [x_limit,0]);
+      board.iso.avatar.position = [0,0];
       
-      iso.change_avatar(1,'x');
-      expect(iso.avatar.position).to(equal, [x_limit,0]);
+      board.iso.change_avatar(x_limit,'x');
+      expect(board.iso.avatar.position).to(equal, [x_limit,0]);
+      
+      board.iso.change_avatar(1,'x');
+      expect(board.iso.avatar.position).to(equal, [x_limit,0]);
     });
     
     it('disallows attempts to travel beyond grid y', function() {
-      var y_limit = iso.max_y-1;
-      iso.avatar.position = [0,0];
+      var y_limit = board.iso.defaults.max_y-1;
+      expect(y_limit).to(equal, 5);
       
-      iso.change_avatar(y_limit,'y');
-      expect(iso.avatar.position).to(equal, [0,y_limit]);
+      board.iso.avatar.position = [0,0];
       
-      iso.change_avatar(1,'y');
-      expect(iso.avatar.position).to(equal, [0,y_limit]);
+      board.iso.change_avatar(y_limit,'y');
+      expect(board.iso.avatar.position).to(equal, [0,y_limit]);
+      
+      board.iso.change_avatar(1,'y');
+      expect(board.iso.avatar.position).to(equal, [0,y_limit]);
     });
   });
 });
