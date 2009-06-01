@@ -1,3 +1,6 @@
+ISSUES:
+- depth2.html demo is broken somehow
+
 - refactor/cleanup tests, remove orphaned/unused code
 - test drive a*
 - introduce unwalkable tiles

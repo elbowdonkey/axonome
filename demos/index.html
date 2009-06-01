@@ -5,23 +5,61 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>axono.me demos</title>
+	<script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/grid.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/node.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/a_star.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/avatar.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/jquery.iso.js" type="text/javascript" charset="utf-8"></script>
+	
 	<link rel="stylesheet" href="../axonome.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="grid.css" type="text/css" media="screen" charset="utf-8">
 </head>
 
 <body>
-	<div class="nav"><a href="http://axono.me">Home</a> | <a href="http://axono.me/demos/index.html">Demos</a> | <a href="http://github.com/elbowdonkey/axonome">github</a></div>
+	<div class="nav">
+		<a href="../index.html">Home</a> | 
+		<a class="selected" href="index.html">Demos</a> | 
+		<a href="http://github.com/elbowdonkey/axonome">github</a></div>
 	<h1>axono.me demos</h1>
 	<ul>
-		<li><a href="isometric1.html">6x6 Grid</a></li>
-		<li><a href="isometric2.html">4x4 Grid (subset of 6x6)</a></li>
-		<li><a href="isometric3.html">6x6 Grid with a* pathfinding</a></li>
-		<li><a href="isometric4.html">6x6 Grid with keyboard control</a></li>
-		<li><a href="depth1.html">Node depth</a></li>
-		<li><a href="depth2.html">Racing nodes</a></li>
-		<li><a href="stripes1.html">Animated stripes (using chaining)</a></li>
-		<li><a href="stripes2.html">Animated stripes (no chaining) [slow!]</a></li>
+		<li><a href="isometric1.html">A grid</a></li>
+		<li><a href="isometric2.html">Part of a grid</a></li>
+		<li><a href="depth1.html">Stacking junk</a></li>
+		<li><a href="depth2.html">Racing cubes</a></li>
+		<li><a href="stripes1.html">Stripes (sane)</a></li>
+		<li><a href="stripes2.html">Stripes (not sane)</a></li>
 		<li><a href="fractals1.html">Fractals!</a></li>
 	</ul>
-	<div id="license"><p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://creativecommons.org/images/public/somerights20.png" /></a><br /><span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">axono.me</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://axono.me" property="cc:attributionName" rel="cc:attributionURL">Michael Buffington</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a>.</p></div>
+	<div id="demo"></div>
+	<div id="information"></div>
+	
+	
+	
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("#demo").load('isometric1.html');
+		$('#information').fadeIn("fast");
+		
+		$('li a').click(function(e) {
+			$('#information').fadeOut("fast", function() {
+				$('#information').html("");
+				$('li a').removeClass("selected");
+				$(this).addClass("selected");
+				$("#demo").load(e.currentTarget.href, function() {
+					$('#information').fadeIn("fast");
+				});
+			});
+			
+			return false;
+		});
+	});
+	</script>
+	
+	
+	<div id="license">
+		<p><span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">axono.me</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://axono.me" property="cc:attributionName" rel="cc:attributionURL">Michael Buffington</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a>.</p>
+		<p>For the love of pixels.</p>
+	</div>
 </body>
 </html>
