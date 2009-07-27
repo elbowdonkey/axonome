@@ -72,6 +72,7 @@ function A(start_xy, goal_xy) {
     // MB: July 26, 2009; this doesn't seem to be working correctly.
     for (var key in this.open_nodes()) {
       if (this.open_nodes()[key]["f"] < this.cheapest_node["f"]) {
+        this.cheapest_node = this.open_nodes()[key];
       }
     }
     
