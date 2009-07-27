@@ -114,4 +114,27 @@ Screw.Unit(function() {
       expect(board.iso.avatar.position).to(equal, [0,y_limit]);
     });
   });
+  
+  describe("Layers", function() {
+    var board;
+    before(function() {
+      $('body').append('<div id="board"></div>');
+    });
+    
+    after(function() {
+      $('#board').remove();
+    });
+    
+    it("adds two layers with identical footprints, one atop the other", function() {
+      board = $('#board').iso({
+        layers:2,
+        max_x: 2,
+        max_y: 2
+      });
+      
+      console.log(board.iso.grid.to_a());
+      expect(board.iso.layers[0]).to(equal, [[0,0],[1,0],[0,1],[1,1]]);
+      expect(board.iso.layers[1]).to(equal, [[0,0],[1,0],[0,1],[1,1]]);
+    });
+  });
 });

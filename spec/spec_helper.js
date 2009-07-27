@@ -23,3 +23,10 @@ Screw.Unit(function() {
     $('dom_test').empty();
   });
 });
+
+
+// grab defaults from jquery.iso plugin that we can then pass into standalone lib tests
+$('body').append('<div id="dummy"></div>');
+var dummy = $('#dummy').iso();
+var defaults = $('#dummy').iso.defaults;
+$('#dummy').remove();

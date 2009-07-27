@@ -1,7 +1,7 @@
 Screw.Unit(function() {
   describe('Node', function() {
     before(function() {
-      grid = new Grid(2,2);
+      grid = new Grid(2,2,defaults);
       node_a = grid.nodes[0];
       node_b = grid.nodes[3];
     });
@@ -16,7 +16,7 @@ Screw.Unit(function() {
     });
     
     it('should accept options for tile size', function() {
-      var node = new Node(0,0,grid,{tile_width: 20, tile_height: 20})
+      var node = new Node(0,0,0,grid,{tile_width: 20, tile_height: 20})
       expect(node.width).to(equal,20);
       expect(node.height).to(equal,20);
     });
@@ -31,7 +31,7 @@ Screw.Unit(function() {
     });
     
     it('should accept options for iso_height', function() {
-      var node = new Node(0,0,grid,{iso_height: 4})
+      var node = new Node(0,0,0,grid,{iso_height: 4})
       expect(node.iso_height).to(equal,4);
     });
     
@@ -39,17 +39,17 @@ Screw.Unit(function() {
       expect(node_a.z).to(equal,0);
     });
     
-    it('should accept options for z', function() {
-      var node = new Node(0,0,grid,{z: 1})
+    it('should accept argument for z', function() {
+      var node = new Node(0,0,1,grid, defaults)
       expect(node.z).to(equal,1);
     });
     
     it('should have a calculated depth', function() {
-      var node = new Node(0,0, 'fake_grid', {z: 1});
+      var node = new Node(0,0,1, 'fake_grid', defaults);
       expect(node.depth).to(equal,100);
-      var node = new Node(0,0, 'fake_grid', {z: 2});
+      var node = new Node(0,0,2, 'fake_grid', defaults);
       expect(node.depth).to(equal,200);
-      var node = new Node(1,0, 'fake_grid', {z: 2});
+      var node = new Node(1,0,2, 'fake_grid', defaults);
       expect(node.depth).to(equal,210);
     });
     
@@ -74,11 +74,11 @@ Screw.Unit(function() {
       expect(node_b.left()).to(equal,0);
       expect(node_b.top()).to(equal,52);
       
-      var node = new Node(node_b.x,node_b.y, 'fake_grid', {z: 1, iso_height:4});
+      var node = new Node(node_b.x,node_b.y,1, 'fake_grid', {iso_height:4});
       expect(node.left()).to(equal,0);
       expect(node.top()).to(equal,48);
       
-      var node = new Node(node_b.x,node_b.y, 'fake_grid', {z: 2, iso_height:4});
+      var node = new Node(node_b.x,node_b.y,2, 'fake_grid', {iso_height:4});
       expect(node.left()).to(equal,0);
       expect(node.top()).to(equal,44);
     });

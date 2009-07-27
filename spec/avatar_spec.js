@@ -4,8 +4,8 @@ var node;
 Screw.Unit(function() {
   describe('Avatar', function() {
     before(function() {
-      grid = new Grid(3,3);
-      avatar = new Avatar(grid);
+      grid = new Grid(3,3,defaults);
+      avatar = new Avatar(grid,defaults);
       node = grid.nodes[0];
     });
     
@@ -28,15 +28,21 @@ Screw.Unit(function() {
     
     it('can come up with a path if given start and end coordinates', function() {
       avatar.determine_path(0,0,2,2);
-      var expected_path = [[0,0], [1,1], [2,2]];
+      var expected_path = [[0,0], [1,0], [2,0], [2,1], [2,2]];
       expect(avatar.movement_queue).to(equal, expected_path);
     });
     
     it('can change its position, one path node at a time, until it reaches the end', function() {
       avatar.determine_path(0,0,2,2);
       avatar.step();
-      expect(avatar.node()).to(equal,grid.node(1,1));
-      expect(avatar.position).to(equal, [1,1]);
+      expect(avatar.node()).to(equal,grid.node(1,0));
+      expect(avatar.position).to(equal, [1,0]);
+      avatar.step();
+      expect(avatar.node()).to(equal,grid.node(2,0));
+      expect(avatar.position).to(equal, [2,0]);
+      avatar.step();
+      expect(avatar.node()).to(equal,grid.node(2,1));
+      expect(avatar.position).to(equal, [2,1]);
       avatar.step();
       expect(avatar.node()).to(equal,grid.node(2,2));
       expect(avatar.position).to(equal, [2,2]);
@@ -53,8 +59,8 @@ Screw.Unit(function() {
     
     describe('a* performance', function() {
       before(function() {
-        grid = new Grid(100,100);
-        avatar = new Avatar(grid);
+        grid = new Grid(100,100,defaults);
+        avatar = new Avatar(grid,defaults);
         avatar.grid = grid;
       });
       
