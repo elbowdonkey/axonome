@@ -1,275 +1,8 @@
-function A(start_xy, goal_xy) {
-  /*
-    1. take a node (the starting node first), call it CURRENT_NODE. 
-    2. are CURRENT_NODE's neighbors walkable?
-      a. if they are
-        i. add each neighbor to the open list along with the node we're dealing with as their parent
-        ii. assign CURRENT_NODE to the neighbor's parent attribute
-        iii. calculated the F, G, and H values for each neighbor node
-          F = G + H
-          G = the G value of the parent of the neighbor node being checked + (10 if CURRENT_NODE is adjacent, 14 if CURRENT_NODE is diaganol)
-          H = total number of non-diagonal squares it would take to reach target from current position multiplied by 10
-              this doesn't include start or end
-      b. have we checked each neighbor?
-        i. add CURRENT_NODE to the closed list
-    
-    3. now find a node in the open list with the lowest F score. this is now our CURRENT_NODE
-      GOTO 1
-    
-      next we grab a node from the open_list, but not just any node. we need the one with the lowest F score
-      F = G + H
-      G is the movement cost? from point A to a given node
-      H is the estimated movement cost to move from the our current node to the final node. often called heuristic, a guess.
-    
-      movement cost is calculated by taking the node (neighbor?), get the parent's G value, add 10 or 14
-    
-      H is the manhattan method - total num of squares moved horizontally and vertically to reach target from current position
-      then multiplied by 10 (cost of a non diagonal move) (does not include start and end)
-      
-    
-    
-      var grid = [
-        [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
-        [0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],
-        [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],
-        [0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],
-        [0,4],[1,4],[2,4],[3,4],[4,4],[5,4],[6,4]
-      ];
-
-    
-  */
-  
-  this.master_list = {};
-  this.start_xy = start_xy;
-  this.goal_xy = goal_xy;
-  this.cheapest_node;
-  this.path = [];
-  
-  /* utility methods, likely good to make private once complete */
-  this.add_node = function(x,y) {
-    var node_name = x + "_" + y;
-    this.master_list[node_name] = {"status": 0, "x": x, "y": y, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true};
-  }
-  
-  this.close_node = function(node_to_close) { 
-    node_to_close["status"] = -1;
-  }
-  
-  this.open_node = function(node_to_open) { 
-    node_to_open["status"] = 1;
-  }
-  
-  this.add_parent = function(child_node, parent_node) {
-    child_node["parent"] = parent_node;
-  }
-  
-  /* end utils */
-  
-  this.find_node = function(x,y) {
-    return this.master_list[x + "_" + y];
-  }
-  
-  this.find_cheapest_node = function() {
-    if (this.cheapest_node == undefined) {
-      this.cheapest_node = {};
-      this.cheapest_node["f"] = Infinity;
-    }
-    
-    function by_score(a,b) {
-      return ((a.f < b.f) ? -1 : ((a.f > b.f) ? 1 : 0));
-    }
-
-    var sorted = this.open_nodes().sort(by_score);
-    this.cheapest_node = sorted[0];
-    
-    ///// // MB: July 26, 2009; this doesn't seem to be working correctly.
-    ///// for (var key in this.open_nodes()) {
-    /////   console.log('cheapest_node_tryouts',key);
-    /////   if (this.open_nodes()[key]["f"] < this.cheapest_node["f"]) {
-    /////     this.cheapest_node = this.open_nodes()[key];
-    /////   }
-    ///// }
-    
-    return this.cheapest_node;
-  }
-  
-  this.is_it_diagonal = function(node_a,node_b) {
-    if (node_a["x"] != node_b["x"] && node_a["y"] != node_b["y"]) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  
-  this.is_it_walkable = function(node) {
-    if (node["walkable"] == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  
-  this.toggle_walkability = function(node) {
-    if (this.is_it_walkable(node)) {
-      node["walkable"] = false;
-    } else {
-      node["walkable"] = true;
-    }
-  }
-  
-  this.neighbors = function(current_node) {
-    var x = current_node["x"];
-    var y = current_node["y"];
-    
-    // build a list of possible neighbors to check, start above, the clockwise around the current node
-    var possible_neighbor_nodes = [
-      (x)   + "_" + (y-1),
-      (x+1) + "_" + (y-1),
-      (x+1) + "_" + (y)  ,
-      (x+1) + "_" + (y+1),
-      (x)   + "_" + (y+1),
-      (x-1) + "_" + (y+1),
-      (x-1) + "_" + (y)  ,
-      (x-1) + "_" + (y-1)
-    ];
-    
-    for (var i=0; i < possible_neighbor_nodes.length; i++) {
-      // get the node from master list
-      // if it exists, do our scoring, parent associating, opening and closing
-      var neighbor_node = this.master_list[possible_neighbor_nodes[i]];
-      
-      if (neighbor_node && this.is_it_walkable(neighbor_node) == false) {
-        this.close_node(neighbor_node);
-      }
-      
-      if (neighbor_node && neighbor_node["status"] != -1) {
-        var node_x = neighbor_node["x"];
-        var node_y = neighbor_node["y"];
-        var increment_g_by = this.is_it_diagonal(current_node,neighbor_node) ? 14 : 10;
-        
-        neighbor_node["g"] = increment_g_by;
-        
-        if (neighbor_node.status == 0 || neighbor_node.status == 1) {
-          this.open_node(neighbor_node); // maybe?
-        }
-        
-        this.add_parent(neighbor_node, current_node);
-        
-        /* abstract this scoring stuff */
-        var a = Math.abs(neighbor_node["x"] - this.goal_xy[0]);
-        var b = Math.abs(neighbor_node["y"] - this.goal_xy[1]);
-        var c = (a + b);
-        neighbor_node["h"] = Math.abs(c) * 10;
-        neighbor_node["f"] = neighbor_node["g"] + neighbor_node["h"];
-        /* */
-      }
-    };
-    
-    this.close_node(current_node);
-  };
-  
-  this.open_nodes = function() {
-    var nodes = [];
-    //////////////////////////////////////////////////////////////////////////// was about to use array instead of hash, but stopped here
-    for (var key in this.master_list) {
-      if (this.master_list[key].status == 1) {
-        nodes.push(this.master_list[key]);
-      }
-    };
-    
-    return nodes;
-  }
-  
-  
-  this.open_nodes_old = function() {
-    var nodes = {};
-    for (var key in this.master_list) {
-      if (this.master_list[key].status == 1) {
-        nodes[key] = this.master_list[key];
-      };
-    }
-    
-    for (var key in nodes) {
-      //if (nodes[key].status == -1) {
-        console.log(nodes[key]);
-      //};
-    }
-    
-    return nodes;
-  }
-  
-  this.find_path = function() {
-    var starting_node = this.find_node(start_xy[0], start_xy[1]);
-    var goal_node = this.find_node(goal_xy[0], goal_xy[1]);
-    var current_node = starting_node;
-    var parent_node = undefined;
-    
-    // this.path.push([start_xy[0], start_xy[1]]);
-    // this.neighbors(starting_node);
-    // 
-    // this.path.push(goal_node);
-    // var parent_node = goal_node;
-    
-    var path_found = false;
-    var total_pushin = 0;
-    
-    while (path_found == false) {
-      this.neighbors(current_node);
-      this.path.push(current_node.parent);
-      this.close_node(current_node);
-      
-      current_node = this.find_cheapest_node();
-      
-      /////// if (this.cheapest_node == goal_node) {
-      ///////   path_found = true;
-      ///////   break;
-      /////// };
-      /////// 
-      
-      /////// 
-      /////// // MB: July 26, 2009; This really doesn't make sense...
-      /////// // if (parent_node == starting_node) {
-      /////// //   path_found = true;
-      /////// //   break;
-      /////// // }
-      /////// 
-      // MB: July 26, 2009; Breaking for dev only
-      
-      total_pushin += 1;
-      if (total_pushin == 1) {
-        break;
-      }
-    }
-    
-    // for (var key in this.open_nodes()) {
-    //   this.neighbors(this.find_cheapest_node());
-    //   if (this.cheapest_node == goal_node) {
-    //     //this.path.push([this.cheapest_node["x"], this.cheapest_node["y"]]);
-    //     // path complete, we're done!
-    //     break;
-    //   }
-    // }
-    
-    function by_score(a,b) {
-      return ((a.f < b.f) ? -1 : ((a.f > b.f) ? 1 : 0));
-    }
-    
-    // console.log(this.path);
-    // console.log(this.path.sort(by_score)[0]);
-    // console.log(this.path.sort(by_score)[1]);
-    // console.log(this.path.sort(by_score)[2]);
-  
-    
-    // 
-    
-  }
-}
-
 Screw.Unit(function(c) { with(c) {
   describe("A", function() {
     var a;
     before(function() {
-      a = new A([1,2],[5,2]);
+      a = new A();
       a.add_node(0,0);a.add_node(1,0);a.add_node(2,0);a.add_node(3,0);a.add_node(4,0);a.add_node(5,0);
       a.add_node(0,1);a.add_node(1,1);a.add_node(2,1);a.add_node(3,1);a.add_node(4,1);a.add_node(5,1);
       a.add_node(0,2);a.add_node(1,2);a.add_node(2,2);a.add_node(3,2);a.add_node(4,2);a.add_node(5,2);
@@ -281,6 +14,10 @@ Screw.Unit(function(c) { with(c) {
       a.toggle_walkability(a.master_list["3_3"]);
       a.toggle_walkability(a.master_list["3_4"]);
       
+      var start = a.find_node(1,2);
+      a.set_start_node(start);
+      var goal = a.find_node(5,2);
+      a.set_goal_node(goal);
     });
     
     it("creates a node to be used for path finding", function() {
@@ -295,6 +32,24 @@ Screw.Unit(function(c) { with(c) {
       expect(a.master_list["1_0"]).to(equal, expected_nodes["1_0"]);
       expect(a.master_list["0_1"]).to(equal, expected_nodes["0_1"]);
       expect(a.master_list["1_1"]).to(equal, expected_nodes["1_1"]);
+    });
+    
+    it("allows a start node to be set", function() {
+      var start = a.find_node(1,2);
+      a.set_start_node(start);
+      expect(a.start_node).to(equal,start);
+      start = a.find_node(2,4)
+      a.set_start_node(start);
+      expect(a.start_node).to(equal,start);
+    });
+    
+    it("allows a goal node to be set", function() {
+      var goal = a.find_node(5,2);
+      a.set_goal_node(goal);
+      expect(a.goal_node).to(equal,goal);
+      goal = a.find_node(3,2);
+      a.set_goal_node(goal);
+      expect(a.goal_node).to(equal,goal);
     });
     
     it("a node can be marked as closed, open, or unchecked", function() {
@@ -317,28 +72,20 @@ Screw.Unit(function(c) { with(c) {
       expect(node_a.parent).to(equal, node_b);
     });
     
-    it("should keep track of the start and goal coordinates", function() {
-      expect(a.start_xy).to(equal,[1,2]);
-      expect(a.goal_xy).to(equal,[5,2]);
-    });
-    
     it("finds a node by xy", function() {
       var expected_node = a.master_list["1_2"];
       expect(a.find_node(1,2)).to(equal,expected_node);
     });
     
     it("determines if one node is diagonally position to another", function() {
-      var node_a = a.master_list["1_2"];
-      var node_b = a.master_list["2_1"];
-      var expected_to_be_true = a.is_it_diagonal(node_a, node_b);
-      
-      expect(expected_to_be_true).to(equal,true);
-      
-      var node_c = a.master_list["1_2"];
-      var node_d = a.master_list["2_2"];
-      var expected_to_be_false = a.is_it_diagonal(node_c, node_d);
-      
-      expect(expected_to_be_false).to(equal,false);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["0_0"])).to(equal,true);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["1_0"])).to(equal,false);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["2_0"])).to(equal,true);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["2_1"])).to(equal,false);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["2_2"])).to(equal,true);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["1_2"])).to(equal,false);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["0_2"])).to(equal,true);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["0_1"])).to(equal,false);
     });
     
     it("toggles a tile's walkability", function() {
@@ -426,14 +173,76 @@ Screw.Unit(function(c) { with(c) {
       expect(node_count).to(equal, 36);
     });
     
-    it("should come up with the right path, nodes sorted", function() {
+    it("should come up with the right path", function() {
+      a.find_path();
+      expect(a.path[0]).to(equal, [2,2]);
+      expect(a.path[1]).to(equal, [3,1]);
+      expect(a.path[2]).to(equal, [4,2]);
+    });
+    
+    it("should reset a node's scores and open/closed status", function() {
+      a.reset_node(a.master_list["0_0"]);
+      expect(a.master_list["0_0"]["status"]).to(equal, "0");
+      expect(a.master_list["0_0"]["parent"]).to(equal, undefined);
+      expect(a.master_list["0_0"]["f"]).to(equal, 0);
+      expect(a.master_list["0_0"]["g"]).to(equal, 0);
+      expect(a.master_list["0_0"]["h"]).to(equal, 0);
+      expect(a.master_list["0_0"]["walkable"]).to(equal, true);
+    });
+    
+    it("should reset every node's scores and open/closed status", function() {
+      a.reset_nodes();
+      for (var key in a.master_list) {
+        expect(a.master_list[key]["status"]).to(equal, "0");
+        expect(a.master_list[key]["parent"]).to(equal, undefined);
+        expect(a.master_list[key]["f"]).to(equal, 0);
+        expect(a.master_list[key]["g"]).to(equal, 0);
+        expect(a.master_list[key]["h"]).to(equal, 0);
+      }
+      
+      expect(a.master_list["3_2"]["walkable"]).to(equal, false);
+      expect(a.master_list["3_3"]["walkable"]).to(equal, false);
+      expect(a.master_list["3_4"]["walkable"]).to(equal, false);
+    });
+    
+    it("should come up with the right path after being given new start/end", function() {
+      a.find_path();
+      expect(a.path[0]).to(equal, [2,2]);
+      expect(a.path[1]).to(equal, [3,1]);
+      expect(a.path[2]).to(equal, [4,2]);
+      
+      a.reset_nodes();
+      
+      a.set_start_node(a.master_list["1_2"]);
+      a.set_goal_node(a.master_list["5_2"]);
+      
+      a.find_path();
+      expect(a.path[0]).to(equal, [2,2]);
+      expect(a.path[1]).to(equal, [3,1]);
+      expect(a.path[2]).to(equal, [4,2]);
+      
+      a.reset_nodes();
+      
+      a.set_start_node(a.master_list["1_1"]);
+      a.set_goal_node(a.master_list["5_1"]);
+      
+      a.find_path();
+      expect(a.path[0]).to(equal, [2,1]);
+      expect(a.path[1]).to(equal, [3,1]);
+      expect(a.path[2]).to(equal, [4,1]);
+      
+      a.reset_nodes();
+      a.set_start_node(a.master_list["1_1"]);
+      a.set_goal_node(a.master_list["4_2"]);
+      
       a.find_path();
       
-      // expect(a.path[0]).to(equal, [1,2]);
-      expect(a.path[1]).to(equal, [2,2]);
-      // expect(a.path[2]).to(equal, [3,2]);
-      // expect(a.path[3]).to(equal, [4,2]);
-      // expect(a.path[4]).to(equal, [5,2]);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["2_1"])).to(equal,false);
+      expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["2_2"])).to(equal,true);
+      
+      expect(a.path[0]).to(equal, [2,2]);
+      expect(a.path[1]).to(equal, [3,1]);
+      expect(a.path[2]).to(equal, [4,2]);
     });
     
   });
