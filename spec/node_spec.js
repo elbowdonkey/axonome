@@ -1,4 +1,4 @@
-Screw.Unit(function() {
+Screw.Unit(function(c) { with(c) {
   describe('Node', function() {
     before(function() {
       grid = new Grid(2,2,defaults);
@@ -84,4 +84,4 @@ Screw.Unit(function() {
     });
     
   });
-});
+}});

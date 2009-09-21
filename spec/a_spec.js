@@ -2,13 +2,13 @@ Screw.Unit(function(c) { with(c) {
   describe("A", function() {
     var a;
     before(function() {
-      a = new A();
-      a.add_node(0,0);a.add_node(1,0);a.add_node(2,0);a.add_node(3,0);a.add_node(4,0);a.add_node(5,0);
-      a.add_node(0,1);a.add_node(1,1);a.add_node(2,1);a.add_node(3,1);a.add_node(4,1);a.add_node(5,1);
-      a.add_node(0,2);a.add_node(1,2);a.add_node(2,2);a.add_node(3,2);a.add_node(4,2);a.add_node(5,2);
-      a.add_node(0,3);a.add_node(1,3);a.add_node(2,3);a.add_node(3,3);a.add_node(4,3);a.add_node(5,3);
-      a.add_node(0,4);a.add_node(1,4);a.add_node(2,4);a.add_node(3,4);a.add_node(4,4);a.add_node(5,4);
-      a.add_node(0,5);a.add_node(1,5);a.add_node(2,5);a.add_node(3,5);a.add_node(4,5);a.add_node(5,5);
+      a = new A(6,6);
+      //a.add_node(0,0);a.add_node(1,0);a.add_node(2,0);a.add_node(3,0);a.add_node(4,0);a.add_node(5,0);
+      //a.add_node(0,1);a.add_node(1,1);a.add_node(2,1);a.add_node(3,1);a.add_node(4,1);a.add_node(5,1);
+      //a.add_node(0,2);a.add_node(1,2);a.add_node(2,2);a.add_node(3,2);a.add_node(4,2);a.add_node(5,2);
+      //a.add_node(0,3);a.add_node(1,3);a.add_node(2,3);a.add_node(3,3);a.add_node(4,3);a.add_node(5,3);
+      //a.add_node(0,4);a.add_node(1,4);a.add_node(2,4);a.add_node(3,4);a.add_node(4,4);a.add_node(5,4);
+      //a.add_node(0,5);a.add_node(1,5);a.add_node(2,5);a.add_node(3,5);a.add_node(4,5);a.add_node(5,5);
       
       a.toggle_walkability(a.master_list["3_2"]);
       a.toggle_walkability(a.master_list["3_3"]);
@@ -20,7 +20,7 @@ Screw.Unit(function(c) { with(c) {
       a.set_goal_node(goal);
     });
     
-    it("creates a node to be used for path finding", function() {
+    it("automatically creates nodes to be used for path finding", function() {
       var expected_nodes = {
         "0_0": {"status": 0, "x": 0, "y": 0, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true},
         "1_0": {"status": 0, "x": 1, "y": 0, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true},

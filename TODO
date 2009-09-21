@@ -1,6 +1,8 @@
 ISSUES:
-- depth2.html demo is broken somehow
++ rebuild test suite so all specs are running/passing
++ remove old a_star junk
 
+- depth2.html demo is broken somehow
 - refactor/cleanup tests, remove orphaned/unused code
 + test drive a*
 - introduce unwalkable tiles
