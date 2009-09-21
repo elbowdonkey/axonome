@@ -1,22 +1,16 @@
 function A(start_xy, goal_xy) {
+  // open_list = [node, parent, g_cost]
+  // [[0,0],undefined]  <- the starting node IS the parent
+  // [[0,1],[0,0]] <- the node 1 space to the right of the start, with the parent
+  //
+  
   /*
-    1. take a node (the starting node first), call it CURRENT_NODE. 
-    2. are CURRENT_NODE's neighbors walkable?
-      a. if they are
-        i. add each neighbor to the open list along with the node we're dealing with as their parent
-        ii. assign CURRENT_NODE to the neighbor's parent attribute
-        iii. calculated the F, G, and H values for each neighbor node
-          F = G + H
-          G = the G value of the parent of the neighbor node being checked + (10 if CURRENT_NODE is adjacent, 14 if CURRENT_NODE is diaganol)
-          H = total number of non-diagonal squares it would take to reach target from current position multiplied by 10
-              this doesn't include start or end
-      b. have we checked each neighbor?
-        i. add CURRENT_NODE to the closed list
-    
-    3. now find a node in the open list with the lowest F score. this is now our CURRENT_NODE
-      GOTO 1
-    
-      next we grab a node from the open_list, but not just any node. we need the one with the lowest F score
+    searching
+  
+    1. take a node (the starting node first), check out its neighbors
+    2. if they are walkable, add them to the open list along with the node we're dealing with as their parent
+    3. we're done with this node once we've checked its neighbors - add it to the closed list
+    4. next we grab a node from the open_list, but not just any node. we need the one with the lowest F score
       F = G + H
       G is the movement cost? from point A to a given node
       H is the estimated movement cost to move from the our current node to the final node. often called heuristic, a guess.
@@ -75,20 +69,12 @@ function A(start_xy, goal_xy) {
       this.cheapest_node["f"] = Infinity;
     }
     
-    function by_score(a,b) {
-      return ((a.f < b.f) ? -1 : ((a.f > b.f) ? 1 : 0));
+    // MB: July 26, 2009; this doesn't seem to be working correctly.
+    for (var key in this.open_nodes()) {
+      if (this.open_nodes()[key]["f"] < this.cheapest_node["f"]) {
+        this.cheapest_node = this.open_nodes()[key];
+      }
     }
-
-    var sorted = this.open_nodes().sort(by_score);
-    this.cheapest_node = sorted[0];
-    
-    ///// // MB: July 26, 2009; this doesn't seem to be working correctly.
-    ///// for (var key in this.open_nodes()) {
-    /////   console.log('cheapest_node_tryouts',key);
-    /////   if (this.open_nodes()[key]["f"] < this.cheapest_node["f"]) {
-    /////     this.cheapest_node = this.open_nodes()[key];
-    /////   }
-    ///// }
     
     return this.cheapest_node;
   }
@@ -169,77 +155,54 @@ function A(start_xy, goal_xy) {
   };
   
   this.open_nodes = function() {
-    var nodes = [];
-    //////////////////////////////////////////////////////////////////////////// was about to use array instead of hash, but stopped here
-    for (var key in this.master_list) {
-      if (this.master_list[key].status == 1) {
-        nodes.push(this.master_list[key]);
-      }
-    };
-    
-    return nodes;
-  }
-  
-  
-  this.open_nodes_old = function() {
     var nodes = {};
     for (var key in this.master_list) {
       if (this.master_list[key].status == 1) {
         nodes[key] = this.master_list[key];
       };
     }
-    
-    for (var key in nodes) {
-      //if (nodes[key].status == -1) {
-        console.log(nodes[key]);
-      //};
-    }
-    
     return nodes;
   }
   
   this.find_path = function() {
     var starting_node = this.find_node(start_xy[0], start_xy[1]);
     var goal_node = this.find_node(goal_xy[0], goal_xy[1]);
-    var current_node = starting_node;
-    var parent_node = undefined;
     
-    // this.path.push([start_xy[0], start_xy[1]]);
-    // this.neighbors(starting_node);
-    // 
-    // this.path.push(goal_node);
-    // var parent_node = goal_node;
+    this.path.push([start_xy[0], start_xy[1]]);
+    this.neighbors(starting_node);
     
+    this.path.push(goal_node);
+    var parent_node = goal_node;
     var path_found = false;
-    var total_pushin = 0;
     
+    var total_pushin = 0;
     while (path_found == false) {
-      this.neighbors(current_node);
-      this.path.push(current_node.parent);
-      this.close_node(current_node);
+      this.neighbors(this.find_cheapest_node());
       
-      current_node = this.find_cheapest_node();
+      if (this.cheapest_node == goal_node) {
+        path_found = true;
+        break;
+      };
       
-      /////// if (this.cheapest_node == goal_node) {
-      ///////   path_found = true;
-      ///////   break;
-      /////// };
-      /////// 
+      parent_node = this.cheapest_node.parent;
+      this.path.push(parent_node);
+      this.close_node(this.cheapest_node);
       
-      /////// 
-      /////// // MB: July 26, 2009; This really doesn't make sense...
-      /////// // if (parent_node == starting_node) {
-      /////// //   path_found = true;
-      /////// //   break;
-      /////// // }
-      /////// 
+      // MB: July 26, 2009; This really doesn't make sense...
+      // if (parent_node == starting_node) {
+      //   path_found = true;
+      //   break;
+      // }
+      
       // MB: July 26, 2009; Breaking for dev only
-      
       total_pushin += 1;
-      if (total_pushin == 1) {
+      if (total_pushin == 5) {
         break;
       }
+      
     }
+    
+    console.log(this.path);
     
     // for (var key in this.open_nodes()) {
     //   this.neighbors(this.find_cheapest_node());
@@ -265,7 +228,7 @@ function A(start_xy, goal_xy) {
   }
 }
 
-Screw.Unit(function(c) { with(c) {
+Screw.Unit(function() {
   describe("A", function() {
     var a;
     before(function() {
@@ -437,4 +400,4 @@ Screw.Unit(function(c) { with(c) {
     });
     
   });
-}});
+});

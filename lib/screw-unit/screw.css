@@ -1,90 +1,94 @@
 html {
-  padding: 0.5em;
-  font-family: Georgia, serif;
-  background: #EDEBD5;
+  padding: 0.1em;
+  font-family: sans-serif;
 }
 
-  li {
-    list-style-type: none;
-  }
+.description, .example {
+  display: none;
+}
 
-  .focused {
-    background-color: #F4F2E4;
-  }
+div#screw_unit_runner.show_all .description, div#screw_unit_runner.show_all .example {
+  display: block;
+}
 
-    .focused * {
-      opacity: 1.0;
-    }
+div#screw_unit_runner.show_failed .failed {
+  display: block;
+}
 
-  h1, h2, p {
-    opacity: 0.4;
-  }
 
-  .describes {
-    padding-left: 0;
-  }
+table#screw_unit_header {
+  width: 100%;
+}
 
-    .describes h1 {
-      font-size: 1.1em;
-      color: #877C21;
-      line-height: 1.8em;
-      margin: 0pt 0pt 0.6em;
-      border-bottom: 1px solid transparent;
-    }
+td#screw_unit_controls {
+  padding: 10px;
+  width: 20%;
+  text-align: center;
+}
 
-      .describes h1:hover {
-        cursor: pointer;
-        color: #000;
-        background-color: #F4F2E4;
-        border-bottom: 1px solid #9A8E51;
-      }
+div#screw_unit_progress_bar {
+  border: 1px solid #cccccc;
+  width: 100%;
+  height: 25px;
+  background: #252525;
+}
 
-    .describes .describe {
-      margin-left: 0.6em;
-      padding-left: 0.6em;
-      border: 1px dashed grey;
-    }
+div#screw_unit_progress_text {
+  position: relative;
+  top: -20px;
+  padding-left: 5px;
+  color: white;
+}
 
-      .describes .describe .its {}
+div#screw_unit_progress_bar.failed div#screw_unit_progress {
+  background: red;
+}
 
-        .describes .describe .its .it {
-          list-style-type: lower-roman;
-          list-style-position: outside;
-        }
+div#screw_unit_progress_bar div#screw_unit_progress {
+  background: green;
+  height: 25px;
+}
 
-          .describes .describe .its .it h2 {
-            font-weight: normal;
-            font-style: italic;
-            padding-left: 0.5em;
-            font-size: 1.0em;
-            color: #877C21;
-            line-height: 1.8em;
-            margin: 0 0 0.5em;
-            border-bottom: 1px solid transparent;
-          }
-          
-          .describes .describe .its .it.enqueued h2 {
-            background-color: #CC6600;
-            color: white !important;
-          }
+li {
+  list-style-type: none;
+}
 
-          .describes .describe .its .it.passed h2 {
-            background-color: #5A753D;
-            color: white !important;
-          }
+ul {
+  padding: .3em;
+}
 
-          .describes .describe .its .it.failed h2 {
-            background-color: #993300;
-            color: white !important;
-          }
+ul.descriptions {
+  background: #e2e1e1;
+}
 
-          .describes .describe .its .it.failed p {
-            margin-left: 1em;
-            color: #993300;
-          }
-          
-          .describes .describe .its .it h2:hover {
-            cursor: pointer;
-            color: #000 !important;
-            border-bottom: 1px solid #9A8E51;
-          }
+li.description {
+  border: 1px solid #a4a4a4;
+}
+
+li.description span.name {
+  cursor: pointer;
+}
+
+ul.child_descriptions {
+  margin-left: .6em;
+  background: #e2e1e1;
+}
+
+li.example {
+  margin: 0;
+  padding: .3em;
+  background: white;
+}
+
+li.example span.name {
+  cursor: pointer;
+}
+
+
+li.example.passed {
+  background: #95ff95;
+}
+
+li.example.failed {
+  background: #ff9696;
+}
