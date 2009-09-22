@@ -1,18 +1,14 @@
 Screw.Unit(function(c) { with(c) {
   describe("A", function() {
     var a;
+    var grid;
     before(function() {
-      a = new A(6,6);
-      //a.add_node(0,0);a.add_node(1,0);a.add_node(2,0);a.add_node(3,0);a.add_node(4,0);a.add_node(5,0);
-      //a.add_node(0,1);a.add_node(1,1);a.add_node(2,1);a.add_node(3,1);a.add_node(4,1);a.add_node(5,1);
-      //a.add_node(0,2);a.add_node(1,2);a.add_node(2,2);a.add_node(3,2);a.add_node(4,2);a.add_node(5,2);
-      //a.add_node(0,3);a.add_node(1,3);a.add_node(2,3);a.add_node(3,3);a.add_node(4,3);a.add_node(5,3);
-      //a.add_node(0,4);a.add_node(1,4);a.add_node(2,4);a.add_node(3,4);a.add_node(4,4);a.add_node(5,4);
-      //a.add_node(0,5);a.add_node(1,5);a.add_node(2,5);a.add_node(3,5);a.add_node(4,5);a.add_node(5,5);
+      grid = new Grid(6,6,defaults);
+      grid.node(3,2).walkable = false;
+      grid.node(3,3).walkable = false;
+      grid.node(3,4).walkable = false;
       
-      a.toggle_walkability(a.master_list["3_2"]);
-      a.toggle_walkability(a.master_list["3_3"]);
-      a.toggle_walkability(a.master_list["3_4"]);
+      a = new A(6,6,grid);
       
       var start = a.find_node(1,2);
       a.set_start_node(start);
@@ -21,17 +17,22 @@ Screw.Unit(function(c) { with(c) {
     });
     
     it("automatically creates nodes to be used for path finding", function() {
-      var expected_nodes = {
-        "0_0": {"status": 0, "x": 0, "y": 0, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true},
-        "1_0": {"status": 0, "x": 1, "y": 0, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true},
-        "0_1": {"status": 0, "x": 0, "y": 1, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true},
-        "1_1": {"status": 0, "x": 1, "y": 1, "parent": undefined, "f": 0, "g": 0, "h": 0, "walkable": true}
-      }
+      expect(a.master_list["0_0"].x).to(equal, 0);
+      expect(a.master_list["1_0"].x).to(equal, 1);
+      expect(a.master_list["0_1"].x).to(equal, 0);
+      expect(a.master_list["1_1"].x).to(equal, 1);
       
-      expect(a.master_list["0_0"]).to(equal, expected_nodes["0_0"]);
-      expect(a.master_list["1_0"]).to(equal, expected_nodes["1_0"]);
-      expect(a.master_list["0_1"]).to(equal, expected_nodes["0_1"]);
-      expect(a.master_list["1_1"]).to(equal, expected_nodes["1_1"]);
+      expect(a.master_list["0_0"].y).to(equal, 0);
+      expect(a.master_list["1_0"].y).to(equal, 0);
+      expect(a.master_list["0_1"].y).to(equal, 1);
+      expect(a.master_list["1_1"].y).to(equal, 1);
+    });
+    
+    it("automatically sets nodes as unwalkable", function() {
+      console.log(a.master_list);
+      expect(a.is_it_walkable(a.master_list["3_2"])).to(equal, false);
+      expect(a.is_it_walkable(a.master_list["3_3"])).to(equal, false);
+      expect(a.is_it_walkable(a.master_list["3_4"])).to(equal, false);
     });
     
     it("allows a start node to be set", function() {
@@ -90,6 +91,9 @@ Screw.Unit(function(c) { with(c) {
     
     it("toggles a tile's walkability", function() {
       var node = a.master_list["0_0"];
+      node["walkable"] = true;
+      node.node["walkable"] = true;
+      
       expect(a.is_it_walkable(node)).to(equal, true);
       a.toggle_walkability(node);
       expect(a.is_it_walkable(node)).to(equal, false);
