@@ -1,69 +1,69 @@
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function(){
-			var grid = new Grid(6,6);
-			var nodes = grid.nodes;
-			
-			for (var i=0; i < nodes.length; i++) {
-				var node = nodes[i];
-				var id = 'tile_' + node.index() + '_' + node.z;
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      var grid = new Grid(6,6);
+      var nodes = grid.nodes;
       
-				$('#board').append('<div id="' + id + '"><span>' + node.x + ',' + node.y + ',' + node.z + '</span></div>');
-				$('#' + id).css({
-					zIndex: node.depth,
-					left: (node.left()) + 'px',
-					top: (node.top()) + 'px'
-				});
-			};
-			
-			var layer_two = [
-				new Node(2,2,grid,{z: 1, iso_height:4}),
-				new Node(1,3,grid,{z: 1, iso_height:4}),
-				new Node(1,2,grid,{z: 1, iso_height:4}),
-				new Node(3,2,grid,{z: 1, iso_height:4}),
-				new Node(3,3,grid,{z: 1, iso_height:4}),
-				new Node(3,4,grid,{z: 1, iso_height:4}),
-				new Node(2,4,grid,{z: 1, iso_height:4}),
-				new Node(1,4,grid,{z: 1, iso_height:4})
-			];
-			
-			for (var i=0; i < layer_two.length; i++) {
-				var node = layer_two[i];
-				var id = 'dirt_' + node.index() + '_' + node.z;
+      for (var i=0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var id = 'tile_' + node.index() + '_' + node.z;
+      
+        $('#board').append('<div id="' + id + '"><span>' + node.x + ',' + node.y + ',' + node.z + '</span></div>');
+        $('#' + id).css({
+          zIndex: node.depth,
+          left: (node.left()) + 'px',
+          top: (node.top()) + 'px'
+        });
+      };
+      
+      var layer_two = [
+        new Node(2,2,grid,{z: 1, iso_height:4}),
+        new Node(1,3,grid,{z: 1, iso_height:4}),
+        new Node(1,2,grid,{z: 1, iso_height:4}),
+        new Node(3,2,grid,{z: 1, iso_height:4}),
+        new Node(3,3,grid,{z: 1, iso_height:4}),
+        new Node(3,4,grid,{z: 1, iso_height:4}),
+        new Node(2,4,grid,{z: 1, iso_height:4}),
+        new Node(1,4,grid,{z: 1, iso_height:4})
+      ];
+      
+      for (var i=0; i < layer_two.length; i++) {
+        var node = layer_two[i];
+        var id = 'dirt_' + node.index() + '_' + node.z;
 
-				$('#board').append('<div class="dirt" id="' + id + '"><span>' + node.x + ',' + node.y + ',' + node.z + '</span></div>');
-				$('#' + id).css({
-					zIndex: node.depth,
-					left: (node.left()) + 'px',
-					top: (node.top()) + 'px'
-				});
-			};
-			
-			var layer_three = [
-				new Node(1,2,grid,{z: 1, iso_height:18}),
-				new Node(1,3,grid,{z: 1, iso_height:18}),
-				new Node(1,3,grid,{z: 2, iso_height:18}),
-				new Node(1,4,grid,{z: 1, iso_height:18}),
-				
-				new Node(3,2,grid,{z: 1, iso_height:18}),
-				new Node(3,3,grid,{z: 1, iso_height:18}),
-				new Node(3,3,grid,{z: 2, iso_height:18}),
-				new Node(3,4,grid,{z: 1, iso_height:18}),
-				
-			];
-			
-			for (var i=0; i < layer_three.length; i++) {
-				var node = layer_three[i];
-				var id = 'cheddar' + node.index() + '_' + node.z;
+        $('#board').append('<div class="dirt" id="' + id + '"><span>' + node.x + ',' + node.y + ',' + node.z + '</span></div>');
+        $('#' + id).css({
+          zIndex: node.depth,
+          left: (node.left()) + 'px',
+          top: (node.top()) + 'px'
+        });
+      };
+      
+      var layer_three = [
+        new Node(1,2,grid,{z: 1, iso_height:18}),
+        new Node(1,3,grid,{z: 1, iso_height:18}),
+        new Node(1,3,grid,{z: 2, iso_height:18}),
+        new Node(1,4,grid,{z: 1, iso_height:18}),
+        
+        new Node(3,2,grid,{z: 1, iso_height:18}),
+        new Node(3,3,grid,{z: 1, iso_height:18}),
+        new Node(3,3,grid,{z: 2, iso_height:18}),
+        new Node(3,4,grid,{z: 1, iso_height:18}),
+        
+      ];
+      
+      for (var i=0; i < layer_three.length; i++) {
+        var node = layer_three[i];
+        var id = 'cheddar' + node.index() + '_' + node.z;
 
-				$('#board').append('<div class="cheddar" id="' + id + '"></div>');
-				$('#' + id).css({
-					zIndex: node.depth,
-					left: (node.left()) + 'px',
-					top: (node.top()) + 'px'
-				});
-			};
-			
-		});
-		$('#information').html("What you see here is dirt and cheese. Piles of dirt with stacks of cheese on top. This demo can provide inspiration for when you want to make stacks of cheese on dirt, virtually.");
-	</script>
-	<div id="board"></div>
+        $('#board').append('<div class="cheddar" id="' + id + '"></div>');
+        $('#' + id).css({
+          zIndex: node.depth,
+          left: (node.left()) + 'px',
+          top: (node.top()) + 'px'
+        });
+      };
+      
+    });
+    $('#information').html("What you see here is dirt and cheese. Piles of dirt with stacks of cheese on top. This demo can provide inspiration for when you want to make stacks of cheese on dirt, virtually.");
+  </script>
+  <div id="board"></div>

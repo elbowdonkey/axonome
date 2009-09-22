@@ -39,6 +39,7 @@ Screw.Unit(function(c) { with(c) {
     //   expect(grid.height()).to(equal,3);
     // });
     
+    // TODO: some nodes should be walkable, some should not be
     it('should return a range of nodes', function() {
       grid = new Grid(6,6,defaults);
       var nodes = grid.range(1,1,2,2);
@@ -58,11 +59,11 @@ Screw.Unit(function(c) { with(c) {
     });
   });
   
-  // describe("Grid layers", function() {
-  //   it("should obey the layers option", function() {
-  //     grid = new Grid(2,2, {layers: 2});
-  //     expect(grid.to_a()).to(equal, []);
-  //   });
-  // });
+  describe("Grid layers", function() {
+    it("should obey the layers option", function() {
+      grid = new Grid(1,1, {layers: 2});
+      expect(grid.to_a()).to(equal, [[ 0, 0, 0 ], [ 0, 0, 1 ]]);
+    });
+  });
   
 }});

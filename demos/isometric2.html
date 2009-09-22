@@ -1,19 +1,5 @@
 <script type="text/javascript" charset="utf-8">
-var grid = new Grid(6,6);
-var nodes = grid.range(2,2,4,4);
-
-// normally we'd do iso.render(), but we can render 'manually' as well.
-for (var i=0; i < nodes.length; i++) {
-	var node = nodes[i];
-	var id = 'tile_' + node.index();
-
-	$('#board').append('<div id="' + id + '"><span>' + node.x + ',' + node.y + '</span></div>');
-	$('#' + id).css({
-		zIndex: node.zindex(),
-		left: (node.left()) + 'px',
-		top: (node.top()) + 'px'
-	});
-};
+$('#board').iso();
 $('#information').html("This one renders a range of tiles from a larger grid.");
 </script>
 

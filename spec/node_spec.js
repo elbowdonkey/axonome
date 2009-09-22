@@ -83,5 +83,16 @@ Screw.Unit(function(c) { with(c) {
       expect(node.top()).to(equal,44);
     });
     
+    it('should be walkable (or not)', function() {
+      var options = defaults;
+      options["walkable"] = true;
+      var node = new Node(0,0,0, 'fake_grid', options);
+      expect(node.walkable).to(equal,true);
+      
+      options = defaults;
+      options["walkable"] = false;
+      var node = new Node(0,0,0, 'fake_grid', options);
+      expect(node.walkable).to(equal,false);
+    });
   });
 }});
