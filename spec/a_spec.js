@@ -4,11 +4,12 @@ Screw.Unit(function(c) { with(c) {
     var grid;
     before(function() {
       grid = new Grid(6,6,defaults);
-      grid.node(3,2).walkable = false;
-      grid.node(3,3).walkable = false;
-      grid.node(3,4).walkable = false;
+      grid.nodes["3_2_0"].walkable = false;
+      grid.nodes["3_3_0"].walkable = false;
+      grid.nodes["3_4_0"].walkable = false;
       
       a = new A(6,6,grid);
+      console.log(a.master_list);
       
       var start = a.find_node(1,2);
       a.set_start_node(start);
@@ -29,10 +30,9 @@ Screw.Unit(function(c) { with(c) {
     });
     
     it("automatically sets nodes as unwalkable", function() {
-      console.log(a.master_list);
-      expect(a.is_it_walkable(a.master_list["3_2"])).to(equal, false);
-      expect(a.is_it_walkable(a.master_list["3_3"])).to(equal, false);
-      expect(a.is_it_walkable(a.master_list["3_4"])).to(equal, false);
+      expect(grid.nodes["3_2_0"].walkable).to(equal, false);
+      expect(grid.nodes["3_3_0"].walkable).to(equal, false);
+      expect(grid.nodes["3_3_0"].walkable).to(equal, false);
     });
     
     it("allows a start node to be set", function() {
@@ -87,22 +87,6 @@ Screw.Unit(function(c) { with(c) {
       expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["1_2"])).to(equal,false);
       expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["0_2"])).to(equal,true);
       expect(a.is_it_diagonal(a.master_list["1_1"], a.master_list["0_1"])).to(equal,false);
-    });
-    
-    it("toggles a tile's walkability", function() {
-      var node = a.master_list["0_0"];
-      node["walkable"] = true;
-      node.node["walkable"] = true;
-      
-      expect(a.is_it_walkable(node)).to(equal, true);
-      a.toggle_walkability(node);
-      expect(a.is_it_walkable(node)).to(equal, false);
-      a.toggle_walkability(node);
-    });
-    
-    it("determines if a tile is walkable or not", function() {
-      expect(a.is_it_walkable(a.master_list["0_0"])).to(equal, true);
-      expect(a.is_it_walkable(a.master_list["3_2"])).to(equal, false);
     });
     
     it("should return a node's neighboring nodes", function() {
@@ -161,24 +145,21 @@ Screw.Unit(function(c) { with(c) {
     
     it("should list open nodes", function() {
       a.neighbors(a.master_list["1_2"]);
-      
-      var node_count = 0;
-      for (var key in a.open_nodes()) {
-        node_count += 1;
-      }
-      
-      expect(node_count).to(equal, 8);
-      
-      var node_count = 0;
-      for (var key in a.master_list) {
-        node_count += 1;
-      }
-      
-      expect(node_count).to(equal, 36);
+      expect(a.open_nodes().length).to(equal, 8);
     });
     
     it("should come up with the right path", function() {
       a.find_path();
+      console.log(a.master_list);
+      /*
+        failing because a.path uses a.master_list. a.master_list is created before
+        we set grid.nodes["x"].walkable. a.master_list needs to be updated after setting
+        nodes as walkable, or created after setting walkable nodes on grid.
+      */
+      expect(grid.nodes["3_2_0"].walkable).to(equal, false);
+      expect(grid.nodes["3_3_0"].walkable).to(equal, false);
+      expect(grid.nodes["3_3_0"].walkable).to(equal, false);
+      
       expect(a.path[0]).to(equal, [2,2]);
       expect(a.path[1]).to(equal, [3,1]);
       expect(a.path[2]).to(equal, [4,2]);

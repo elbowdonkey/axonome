@@ -1,9 +1,31 @@
 Screw.Unit(function(c) { with(c) {
   describe('Node', function() {
     before(function() {
+      defaults.layers = 2;
       grid = new Grid(2,2,defaults);
-      node_a = grid.nodes[0];
-      node_b = grid.nodes[3];
+      node_a = grid.nodes["0_0_0"];
+      node_b = grid.nodes["0_1_0"];
+      node_c = grid.nodes["0_0_1"];
+      node_d = grid.nodes["0_1_1"];
+    });
+    
+    it('should have a unique index', function() {
+      expect(node_a.x).to(equal,0);
+      expect(node_a.y).to(equal,0);
+      expect(node_a.z).to(equal,0);
+      
+      expect(node_b.x).to(equal,0);
+      expect(node_b.y).to(equal,1);
+      expect(node_b.z).to(equal,0);
+      
+      expect(node_c.x).to(equal,0);
+      expect(node_c.y).to(equal,0);
+      expect(node_c.z).to(equal,1);
+      
+      expect(node_d.x).to(equal,0);
+      expect(node_d.y).to(equal,1);
+      expect(node_d.z).to(equal,1);
+      
     });
     
     it('should belong to a grid', function() {
@@ -21,9 +43,10 @@ Screw.Unit(function(c) { with(c) {
       expect(node.height).to(equal,20);
     });
     
-    it('should have an xy address', function() {
-      expect(node_a.xy()).to(equal,[0,0]);
-      expect(node_b.xy()).to(equal,[1,1]);
+    it('should have x, y, and z attributes', function() {
+      expect(node_a.x).to(equal,0);
+      expect(node_a.y).to(equal,0);
+      expect(node_a.z).to(equal,0);
     });
     
     it('should have a default iso_height', function() {
@@ -55,44 +78,34 @@ Screw.Unit(function(c) { with(c) {
     
     it('should have a screen zindex', function() {
       // this will need adjustment, as depth is currently brittle;
-      expect(node_a.zindex()).to(equal,0);
-      expect(node_b.zindex()).to(equal,10400);
-    });
-            
-    it('should have a unique index', function() {
-      var node_a_index = node_a.x + node_a.y * grid.width;
-      var node_b_index = node_b.x + node_b.y * grid.width;
-      
-      expect(node_a.index()).to(equal,node_a_index);
-      expect(node_b.index()).to(equal,node_b_index);
+      expect(node_a.zindex).to(equal,0);
+      expect(node_b.zindex).to(equal,4160);
     });
     
     it('should calculate pixel choordinates', function() {
-      expect(node_a.left()).to(equal,0);
-      expect(node_a.top()).to(equal,0);
+      expect(node_a.left).to(equal,0);
+      expect(node_a.top).to(equal,0);
       
-      expect(node_b.left()).to(equal,0);
-      expect(node_b.top()).to(equal,52);
+      expect(node_b.left).to(equal,-52);
+      expect(node_b.top).to(equal,26);
       
       var node = new Node(node_b.x,node_b.y,1, 'fake_grid', {iso_height:4});
-      expect(node.left()).to(equal,0);
-      expect(node.top()).to(equal,48);
+      expect(node.left).to(equal,-52);
+      expect(node.top).to(equal,22);
       
       var node = new Node(node_b.x,node_b.y,2, 'fake_grid', {iso_height:4});
-      expect(node.left()).to(equal,0);
-      expect(node.top()).to(equal,44);
+      expect(node.left).to(equal,-52);
+      expect(node.top).to(equal,18);
     });
     
     it('should be walkable (or not)', function() {
-      var options = defaults;
-      options["walkable"] = true;
-      var node = new Node(0,0,0, 'fake_grid', options);
-      expect(node.walkable).to(equal,true);
+      var walkable_node1 = new Node(0,0,0, 'fake_grid');
+      var walkable_node2 = new Node(0,0,0, 'fake_grid', {walkable: true});
+      var unwalkable_node = new Node(0,0,0, 'fake_grid', {walkable: false});
       
-      options = defaults;
-      options["walkable"] = false;
-      var node = new Node(0,0,0, 'fake_grid', options);
-      expect(node.walkable).to(equal,false);
+      expect(walkable_node1.walkable).to(equal,true);
+      expect(walkable_node2.walkable).to(equal,true);
+      expect(unwalkable_node.walkable).to(equal,false);
     });
   });
 }});
