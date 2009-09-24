@@ -10,7 +10,7 @@ Screw.Unit(function(c) { with(c) {
     });
     
     it('know its position on a grid', function() {
-      expect(avatar.position).to(equal,[0,0]);
+      expect(avatar.position).to(equal,[0,0,0]);
     });
     
     it('has a zindex', function() {
@@ -27,28 +27,28 @@ Screw.Unit(function(c) { with(c) {
     });
     
     it('can come up with a path if given start and end coordinates', function() {
-      avatar.determine_path(0,0,2,2);
-      var expected_path = [[1,1], [2,2]];
+      avatar.determine_path(0,0,2,2,0);
+      var expected_path = [[1,1,0], [2,2,0]];
       expect(avatar.movement_queue).to(equal, expected_path);
     });
     
     it('can change its position, one path node at a time, until it reaches the end', function() {
-      avatar.determine_path(0,0,2,2);
+      avatar.determine_path(0,0,2,2,0);
       avatar.step();
       expect(avatar.node()).to(equal,grid.nodes["1_1_0"]);
-      expect(avatar.position).to(equal, [1,1]);
+      expect(avatar.position).to(equal, [1,1,0]);
       avatar.step();
       expect(avatar.node()).to(equal,grid.nodes["2_2_0"]);
-      expect(avatar.position).to(equal, [2,2]);
+      expect(avatar.position).to(equal, [2,2,0]);
     });
     
     it('can follow a path, then follow a new one', function() {
-      avatar.determine_path(0,0,2,2);
+      avatar.determine_path(0,0,2,2,0);
       avatar.follow();
-      expect(avatar.position).to(equal, [2,2]);
-      avatar.determine_path(2,2,0,0);
+      expect(avatar.position).to(equal, [2,2,0]);
+      avatar.determine_path(2,2,0,0,0);
       avatar.follow();
-      expect(avatar.position).to(equal, [0,0]);
+      expect(avatar.position).to(equal, [0,0,0]);
     });
     
     describe('a* performance', function() {
@@ -59,7 +59,7 @@ Screw.Unit(function(c) { with(c) {
       });
       
       it('can haul ass', function() {
-        avatar.determine_path(0,0,22,88);
+        avatar.determine_path(0,0,22,88,0);
         avatar.follow();
       })
     });
@@ -77,16 +77,16 @@ Screw.Unit(function(c) { with(c) {
       });
       
       it('avatars can be positioned independently', function() {
-        expect(avatar_a.position).to(equal,[0,0]);
-        expect(avatar_b.position).to(equal,[0,0]);
+        expect(avatar_a.position).to(equal,[0,0,0]);
+        expect(avatar_b.position).to(equal,[0,0,0]);
         
-        avatar_a.determine_path(0,0,2,2);
+        avatar_a.determine_path(0,0,2,2,0);
         avatar_a.follow();
-        expect(avatar_a.position).to(equal, [2,2]);
+        expect(avatar_a.position).to(equal, [2,2,0]);
         
-        avatar_b.determine_path(0,0,0,2);
+        avatar_b.determine_path(0,0,0,2,0);
         avatar_b.follow();
-        expect(avatar_b.position).to(equal, [0,2]);
+        expect(avatar_b.position).to(equal, [0,2,0]);
       });
     });
   });
