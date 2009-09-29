@@ -29,8 +29,13 @@
 	color:#795D5D;
 	cursor: pointer;
 }
-
+/*
 #board div:hover {
+  background:url('images/highlight.png') no-repeat top left;
+}
+*/
+
+#board div.hover {
   background:url('images/highlight.png') no-repeat top left;
 }
 
