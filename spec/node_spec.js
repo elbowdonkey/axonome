@@ -28,6 +28,10 @@ Screw.Unit(function(c) { with(c) {
       
     });
     
+    it('should have an id', function() {
+      expect(node_a.id).to(equal,"0_0_0");
+    });
+    
     it('should belong to a grid', function() {
       expect(node_a.grid).to(equal,grid);
     });

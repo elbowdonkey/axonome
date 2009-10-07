@@ -1,23 +1,24 @@
 body {
-	padding:0;
-	font: normal 95%/1.5em Helvetica, Arial, sans-serif;
-	background-color:#C2E7E8;
+  padding:0;
+  font: normal 95%/1.5em Helvetica, Arial, sans-serif;
+  background: #DDD url('demos/images/small_grey_bg.png');
+  background-position: 1px 0px;
 }
 
 h1 {
-	color:#CA411A;
+  color:#CA411A;
 }
 
 h2 {
-	color:#224041;
+  color:#224041;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 #information {
@@ -28,7 +29,6 @@ a:hover {
   display:none;
   font: normal 85%/1.3em Helvetica, Arial, sans-serif;
   color:#333;
-  width:250px;
 }
 
 #license {
@@ -49,20 +49,12 @@ a:hover {
   background-color:#eee;
 }
 
-ul {
-  margin:0;
-  padding:0;
-  list-style: none;
-  float:left;
-  width:200px;
-}
 
 li {
   font: normal 95%/1.5em Helvetica, Arial, sans-serif;
 }
 
 li a {
-  display:block;
   padding:2px;
   color: #00F;
 }
@@ -93,4 +85,61 @@ li a.selected {
   float:left;
   width: 420px;
   height: 380px;
+}
+
+#example {
+  padding:5px;
+  width:26em;
+  background-color: #191A1B;
+}
+
+#shadow {
+  position:absolute;
+  top: 10px;
+  left: 250px;
+  overflow:visible;
+}
+
+#board {
+  position:absolute;
+  top: 10px;
+  left: 250px;
+  overflow:visible;
+}
+
+.layer_0 {
+  width:16px;
+  height:17px;
+  position:absolute;
+  display:block;
+  background:url('demos/images/cube_blue.png') no-repeat bottom left;
+}
+
+#shadow .dirt {
+  width:16px;
+  height:17px;
+  position:absolute;
+  display:block;
+  background:url('demos/images/cube_shadow.png') no-repeat bottom left;
+}
+
+#board .dirt {
+  width:16px;
+  height:17px;
+  position:absolute;
+  display:block;
+  background:url('demos/images/cube_red.png') no-repeat bottom left;
+}
+
+#content {
+  margin-top:20px;
+  width:500px;
+  background-color:white;
+  opacity:0.75;
+  padding:10px;
+}
+
+#content h1 {
+  margin:0;
+  padding:0;
 }

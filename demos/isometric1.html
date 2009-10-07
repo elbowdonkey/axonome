@@ -1,5 +1,5 @@
 <script type="text/javascript" charset="utf-8">
-$('#board').iso({unwalkables: ["2_2_0","2_3_0","3_2_0","4_2_0","4_3_0", "4_4_0", "3_4_0"], layers: 2});
+$('#board').iso({unwalkables: ["2_2_0","2_3_0","3_2_0","4_2_0","4_3_0", "4_4_0"], max_x: 20, max_y: 20});
 
 $('#board').children().mouseenter(function(e) {
   var tile = $(e.target);
@@ -17,13 +17,15 @@ $('#board').children().mouseenter(function(e) {
     var xyz = $.fn.iso.avatar.movement_queue[key];
     var id = xyz[0] + "_" + xyz[1] + "_" + xyz[2];
     $('#tile_' + id).addClass('hover');
-    $('#tile_' + id).css({opacity:((key)/10)+0.25});
+    $('#tile_' + id).append(key);
+    //$('#tile_' + id).css({opacity:((key)/10)+0.25});
   }
 });
 
 
 $('#board').children().mouseleave(function(e) {
   $('#board').children().removeClass('hover');
+  $('#board').children().html('');
   $('#board').children().css({opacity:1.0});
 });
 

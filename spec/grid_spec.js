@@ -5,17 +5,6 @@ Screw.Unit(function(c) { with(c) {
     before(function() {
       defaults.layers = 2;
       grid = new Grid(3,3,defaults);
-      // nodes = [
-      //   new Node(0,0,0, grid, defaults),
-      //   new Node(1,0,0, grid, defaults),
-      //   new Node(2,0,0, grid, defaults),
-      //   new Node(0,1,0, grid, defaults),
-      //   new Node(1,1,0, grid, defaults),
-      //   new Node(2,1,0, grid, defaults),
-      //   new Node(0,2,0, grid, defaults),
-      //   new Node(1,2,0, grid, defaults),
-      //   new Node(2,2,0, grid, defaults)
-      // ]
       nodes = grid.nodes;
     });
     
@@ -32,17 +21,37 @@ Screw.Unit(function(c) { with(c) {
       expect(grid.node(0,0,0)).to(equal,grid.nodes["0_0_0"]);
       expect(grid.node(0,0,1)).to(equal,grid.nodes["0_0_1"]);
     });
+    
+    it('should return a column of nodes', function() {
+      var column = grid.column(0,0); // x,z
+      expect(column).to(equal,[grid.nodes["0_0_0"],grid.nodes["0_1_0"],grid.nodes["0_2_0"]]);
+      
+      var column = grid.column(1,0); // x,z
+      expect(column).to(equal,[grid.nodes["1_0_0"],grid.nodes["1_1_0"],grid.nodes["1_2_0"]]);
+      
+      var column = grid.column(0,1); // x,z
+      expect(column).to(equal,[grid.nodes["0_0_1"],grid.nodes["0_1_1"],grid.nodes["0_2_1"]]);
+    });
+    
+    it('should return a row of nodes', function() {
+      var row = grid.row(0,0); // y,z
+      expect(row).to(equal,[grid.nodes["0_0_0"],grid.nodes["1_0_0"],grid.nodes["2_0_0"]]);
+      
+      var row = grid.row(1,0); // y,z
+      expect(row).to(equal,[grid.nodes["0_1_0"],grid.nodes["1_1_0"],grid.nodes["2_1_0"]]);
+      
+      var row = grid.row(0,1); // y,z
+      expect(row).to(equal,[grid.nodes["0_0_1"],grid.nodes["1_0_1"],grid.nodes["2_0_1"]]);
+    });
   });
   
   describe('Grid; with options', function() {
-    // it('should be able to created using options hash', function() {
-    //   grid = new Grid({width:3, height:3});
-    //   
-    //   expect(grid.width()).to(equal,3);
-    //   expect(grid.height()).to(equal,3);
-    // });
-    
-    // TODO: some nodes should be walkable, some should not be
+    it('should be able to created using options hash', function() {
+      grid = new Grid(3,3,{foo:3});
+      expect(grid.width).to(equal,3);
+      expect(grid.height).to(equal,3);
+    });
+
     it('should return a range of nodes', function() {
       grid = new Grid(6,6,defaults);
       var nodes = grid.range(1,1,2,2,0);
