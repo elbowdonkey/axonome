@@ -11,7 +11,7 @@ Here's how you'd render a 6x6 isometric grid using jQuery.
 
     $(document).ready(function(){
       $('#board').iso();
-		});
+});
 
 The Iso object handles rendering as well as representing the grid as Javascript objects.
 
