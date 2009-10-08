@@ -15,28 +15,88 @@
 
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function(){
-        var word = new Letters("axono.me",1,2,1);
+        var word = new Letters("axono.me",1,2,0);
+        var shadow = new Letters("axono.me",1,2,2);
+        
+        $('#shadow').iso({
+          unwalkables: shadow,
+          tile_width:16,
+          tile_height:8,
+          iso_tile_height:9,
+          max_x: 43, 
+          max_y: 9,
+          layers:3}
+        );
         
         $('#board').iso({
           unwalkables: word,
           tile_width:16,
           tile_height:8,
-          max_x: 43, 
-          max_y: 9,
-          layers: 2}
+          iso_tile_height:9,
+          max_x: 43,
+          render_all: false,
+          max_y: 9}
         );
         
-        $('#board').mouseover(function() {
-          $('#board .dirt').each(function() {
-            var move_by = parseInt(Math.random() * 5);
-            $(this).animate({top: '-=' + move_by}, 75).animate({top: '+=' + move_by}, 100);
-          });
+        var original_top = $('#board').css('top');
+        var original_left = $('#board').css('left');
+        var quit_it = 0;
+        
+        var tile_queue = new Array();
+        $('#board .dirt').each(function() {
+          tile_queue.push(this);
         });
         
-        $('#board').mouseout(function() {
-          index_count = 0;
-          $('#board .dirt').stop();
+        function serial_bounce() {
+          var move_by = parseInt(Math.random() * 10)+5;
+          if (tile_queue.length > 0) {
+            $(tile_queue.shift()).animate({top: '-=' + move_by}, 50).animate({top: '+=' + move_by}, 50, function() {
+              serial_bounce();
+            });
+          } else {
+            return;
+          }
+        };
+        
+        function r() {
+          //return parseInt(Math.random() * 100);
+          return 32;
+        }
+        
+        function explode() {
+          //$('#board .dirt').each(function() {
+          $.each(tile_queue, function() {
+            var id_parts = this.id.split("_");
+            var tile = $(this);
+            //var tile = $(tile_queue.shift());
+            var shadow = $('#shadow_tile_' + id_parts[2] + '_' + id_parts[3] + '_' + 2);
+            var trajectories = ["north", "south", "east", "west"];
+            
+            
+            switch(trajectories[parseInt(Math.random() * 4)]) {
+              case "north":
+                tile.animate({top: '-=' + 16}).animate({top: '+=' + 16});
+                break;
+              case "west":
+                tile.animate({top: '-=' + 32, left: '-=' + 32}).animate({top: '+=' + 32, left: '+=' + 32});
+                shadow.animate({top: '-=' + 16, left: '-=' + 48}).animate({top: '+=' + 16, left: '+=' + 48});
+                break;
+              case "east":
+                tile.animate({top: '-=' + 32, left: '+=' + 32}).animate({top: '+=' + 32, left: '-=' + 32});
+                shadow.animate({top: '-=' + 8, left: '+=' + 16}).animate({top: '+=' + 8, left: '-=' + 16});
+                break;
+              case "south":
+                tile.animate({top: '-=' + 0, left: '-=' + 16}).animate({top: '+=' + 0, left: '+=' + 16});
+                shadow.animate({top: '-=' + 4, left: '+=' + 4}).animate({top: '+=' + 4, left: '-=' + 4});
+                break;
+            }
+          });
+        };
+        
+        $('#board').mouseenter(function() {
+          explode();
         });
+        //serial_bounce();
       });
     </script>
     

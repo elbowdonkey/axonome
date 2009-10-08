@@ -22,8 +22,6 @@ a:hover {
 }
 
 #information {
-  position:absolute;
-  right:10px;
   background-color: rgba(255,255,255,0.50);
   padding:10px;
   display:none;
@@ -32,9 +30,6 @@ a:hover {
 }
 
 #license {
-  clear:both;
-  position:absolute;
-  bottom:0px;
   font-size: 80%;
   line-height:85%;
   padding:0.5em;
@@ -93,26 +88,42 @@ li a.selected {
   background-color: #191A1B;
 }
 
-#shadow {
-  position:absolute;
-  top: 10px;
-  left: 250px;
-  overflow:visible;
-}
-
 #board {
   position:absolute;
-  top: 10px;
+  top: 0px;
   left: 250px;
   overflow:visible;
 }
 
-.layer_0 {
+#shadow {
+  position:absolute;
+  top: 21px;
+  left: 250px;
+  overflow:visible;
+}
+
+#shadow div {
+  width:16px;
+  height:17px;
+  position:absolute;
+  display:block;
+  background:url('demos/images/cube_orange.png') no-repeat bottom left;
+}
+
+#shadow .layer_0, #shadow .layer_2, #shadow .layer_4, #shadow .layer_6, #shadow .layer_8 {
   width:16px;
   height:17px;
   position:absolute;
   display:block;
   background:url('demos/images/cube_blue.png') no-repeat bottom left;
+}
+
+#shadow .layer_2 {
+  width:16px;
+  height:17px;
+  position:absolute;
+  display:block;
+  background: none;
 }
 
 #shadow .dirt {
@@ -128,7 +139,7 @@ li a.selected {
   height:17px;
   position:absolute;
   display:block;
-  background:url('demos/images/cube_red.png') no-repeat bottom left;
+  background:url('demos/images/cube_red.png') no-repeat top left;
 }
 
 #content {

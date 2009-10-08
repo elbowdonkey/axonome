@@ -3,7 +3,7 @@ $('#board').iso({unwalkables: ["2_2_0","2_3_0","3_2_0","4_2_0","4_3_0", "4_4_0"]
 
 $('#board').children().mouseenter(function(e) {
   var tile = $(e.target);
-  var start_x = $.fn.iso.avatar.position[0];
+  var start_x = $('#board').iso.avatar.position[0];
   var start_y = $.fn.iso.avatar.position[1];
   var start_z = $.fn.iso.avatar.position[2];
   var end_x = tile.data("xyz")[0];
