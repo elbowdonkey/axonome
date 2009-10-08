@@ -26,4 +26,4 @@ axono.me has been designed to render axonometric projections. Though it works fi
 # Useful resources
 
 * <a href="http://www.compuphase.com/axometr.htm">Axonometric projections - a technical overview</a>
-* <a href="http://www-cs-students.stanford.edu/~amitp/game-programming/grids/">Amit's Thouts on Grids</a>
+* <a href="http://www-cs-students.stanford.edu/~amitp/game-programming/grids/">Amit's Thoughts on Grids</a>
