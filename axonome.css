@@ -142,6 +142,14 @@ li a.selected {
   background:url('demos/images/cube_red.png') no-repeat top left;
 }
 
+.red {
+  background:url('demos/images/cube_red.png') no-repeat top left !important;
+}
+
+.blue {
+  background:url('demos/images/cube_blue.png') no-repeat top left !important;
+}
+
 #content {
   margin-top:20px;
   width:500px;

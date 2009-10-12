@@ -47,10 +47,13 @@
           tile_queue.push(this);
         });
         
+        var color_classes = ["red","blue"];
+        
         function serial_bounce() {
           var move_by = parseInt(Math.random() * 10)+5;
           if (tile_queue.length > 0) {
-            $(tile_queue.shift()).animate({top: '-=' + move_by}, 50).animate({top: '+=' + move_by}, 50, function() {
+            var tile = $(tile_queue.shift());
+            tile.addClass(color_class).animate({top: '-=' + move_by}, 50).animate({top: '+=' + move_by}, 50, function() {
               serial_bounce();
             });
           } else {
@@ -64,14 +67,12 @@
         }
         
         function explode() {
-          //$('#board .dirt').each(function() {
           $.each(tile_queue, function() {
             var id_parts = this.id.split("_");
             var tile = $(this);
-            //var tile = $(tile_queue.shift());
+            var color_class = color_classes[Math.floor(Math.random()*2)];
             var shadow = $('#shadow_tile_' + id_parts[2] + '_' + id_parts[3] + '_' + 2);
             var trajectories = ["north", "south", "east", "west"];
-            
             
             switch(trajectories[parseInt(Math.random() * 4)]) {
               case "north":
@@ -96,7 +97,6 @@
         $('#board').mouseenter(function() {
           explode();
         });
-        //serial_bounce();
       });
     </script>
     
