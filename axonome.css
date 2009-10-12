@@ -90,16 +90,25 @@ li a.selected {
 
 #board {
   position:absolute;
-  top: 0px;
-  left: 250px;
+  top: 20px;
+  left: 20px;
   overflow:visible;
 }
 
 #shadow {
   position:absolute;
-  top: 21px;
-  left: 250px;
+  top: 41px;
+  left: 20px;
   overflow:visible;
+}
+
+#newness {
+  position:absolute;
+  top: 40px;
+  left: 360px;
+  width:273px;
+  text-align:right;
+  color:white;
 }
 
 #shadow div {
