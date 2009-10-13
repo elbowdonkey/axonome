@@ -79,6 +79,7 @@ li a.selected {
   clear: right;
   float:left;
   width: 420px;
+  overflow:visible;
   height: 380px;
 }
 
@@ -109,7 +110,7 @@ li a.selected {
   width:273px;
   text-align:right;
   color:white;
-  font-size:11px;
+  font-size:10px;
 }
 
 #shadow div {

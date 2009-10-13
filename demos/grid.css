@@ -1,123 +1,52 @@
-#debug {
+#grid {
+  position:relative;
+  width:420px;
+  height:380px;
+  top:20px;
+  left: 0px;
+  overflow:visible;
+}
+
+#grid div {
+  width:16px;
+  height:17px;
   position:absolute;
-  width:200px;
-  right:20px;
+  background:url('images/cube_tile_grass.png') no-repeat bottom left;
 }
 
-#board {
-	position:relative;
-	width:420px;
-	height:380px;
-	top:0px;
-	left: 0px;
-	overflow:visible;
+#grid div.hover {
+  width:16px;
+  height:17px;
+  position:absolute;
+  background:url('images/cube_tile_glow.png') no-repeat bottom left;
 }
 
-#board div {
-  top:0;
-  left:0;
-	width:104px;
-	height:57px;
-	position:absolute;
-	font: normal 9px Helvetica, sans-serif;
-	display:block;
-	background:url('images/tile.png') no-repeat top left;
-	position: absolute;
-	overflow:hidden;
-	padding-left:20px;
-	padding-top:17px;
-	color:#795D5D;
-	cursor: pointer;
-}
-/*
-#board div:hover {
-  background:url('images/highlight.png') no-repeat top left;
-}
-*/
-
-#board div.hover {
-  background:url('images/highlight.png') no-repeat top left;
+#grid div.goal {
+  width:16px;
+  height:17px;
+  position:absolute;
+  background:url('images/cube_tile_glow.png') no-repeat bottom left;
 }
 
-.avatar {
+#grid span.avatar {
   top:0px;
   left:0px;
-  width:32px;
-  height:34px;
-  position: absolute;
-  background:url('images/avatar.png') no-repeat top left;
+  width:16px;
+  height:17px;
+  position:absolute;
+  background:url('images/cube_red.png') no-repeat 0px 0px;
+  overflow:visible;
 }
 
-#board div span {
-  width:62px;
-  height: 20px;
-  display:block;
-	color:#795D5D;
-	position:relative;
-	top:17px;
-	left:20px;
-	cursor: pointer;
+#grid span.shadow {
+  top:0px;
+  left:0px;
+  width:16px;
+  height:17px;
+  position:absolute;
+  background:url('images/cube_shadow.png') no-repeat bottom left;
 }
 
-#board div.dirt {
-	background:url('images/dirt.png') no-repeat top left;
-}
-
-#board div.dirt span {
-  color:#BE8446; 
-}
-
-#board div.cheddar {
-	background:url('images/cheddar.png') no-repeat top left;
-}
-
-#track {
-	position:relative;
-	width:420px;
-	height:380px;
-	top:0px;
-	overflow:visible;
-}
-
-#track div {
-  top:0;
-  left:0;
-	width:16px;
-	height:17px;
-	position:absolute;
-	font: normal 9px Helvetica, sans-serif;
-	display:block;
-	background:url('images/cube_tile.png') no-repeat top left;
-	position: absolute;
-	overflow:hidden;
-}
-
-#track div span {
-  display:none;
-}
-
-#track span, #track i {
-  top:0;
-  left:0;
-	width:16px;
-	height:17px;
-	position:absolute;
-	display:block;
-	position: absolute;
-}
-
-#track .shadow {
-  background:url('images/cube_shadow.png') no-repeat top left;
-}
-
-#track #avatar_0 {
-  background:url('images/cube_red.png') no-repeat top left;
-}
-
-#track #avatar_1 {
-  background:url('images/cube_blue.png') no-repeat top left;
-}
-
-#track #avatar_2 {
-  background:url('images/cube_orange.png') no-repeat top left;
+#grid div.dirt {
+  background:url('images/cube_tile_dirt.png') no-repeat 2px left;
 }

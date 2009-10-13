@@ -1,34 +1,23 @@
 <script type="text/javascript" charset="utf-8">
-$('#board').iso({unwalkables: ["2_2_0","2_3_0","3_2_0","4_2_0","4_3_0", "4_4_0"], max_x: 20, max_y: 20});
+  $('#grid').iso({
+    unwalkables: ["2_2_0","2_3_0","3_2_0","4_2_0","4_3_0", "4_4_0"], 
+    max_x: 20, 
+    max_y: 20,
+    avatar_offset: [0,-8],
+    tile_width:16,
+    tile_height:8,
+    iso_tile_height:8
+  });
 
-$('#board').children().mouseenter(function(e) {
-  var tile = $(e.target);
-  var start_x = $('#board').iso.avatar.position[0];
-  var start_y = $.fn.iso.avatar.position[1];
-  var start_z = $.fn.iso.avatar.position[2];
-  var end_x = tile.data("xyz")[0];
-  var end_y = tile.data("xyz")[1];
-  var z = tile.data("xyz")[2];
-  $.fn.iso.avatar.determine_path(start_x, start_y, end_x, end_y,z);
+
+  $('#grid').children().mouseenter(function(e) {
+    $(e.target).addClass('hover');
+  });
   
-  $('#tile_' + start_x + "_" + start_y + "_" + start_z).addClass('hover');
-  
-  for(var key in $.fn.iso.avatar.movement_queue) {
-    var xyz = $.fn.iso.avatar.movement_queue[key];
-    var id = xyz[0] + "_" + xyz[1] + "_" + xyz[2];
-    $('#tile_' + id).addClass('hover');
-    $('#tile_' + id).append(key);
-    //$('#tile_' + id).css({opacity:((key)/10)+0.25});
-  }
-});
+  $('#grid').children().mouseleave(function(e) {
+    $(e.target).removeClass('hover');
+  });
 
-
-$('#board').children().mouseleave(function(e) {
-  $('#board').children().removeClass('hover');
-  $('#board').children().html('');
-  $('#board').children().css({opacity:1.0});
-});
-
-$('#information').html("Here's a 6x6 grid. Click on a square to see some A* pathfinding.");
+//$('#information').html("Here's a 6x6 grid. Click on a square to see some A* pathfinding.");
 </script>
-<div id="board"></div>
+<div id="grid"></div>
