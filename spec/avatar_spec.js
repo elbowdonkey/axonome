@@ -68,12 +68,13 @@ Screw.Unit(function(c) { with(c) {
       var avatar_a;
       var avatar_b;
       var avatars_grid;
-      
+      var board;
       before(function() {
-        $j('#dom_test').html('<div id="avatars"></div>');
-        avatars_grid = $j('#avatars').iso({avatar_count: 2});
-        avatar_a = avatars_grid.iso.avatars[0];
-        avatar_b = avatars_grid.iso.avatars[1];
+        $j('#board').remove();
+        $j('body').append('<div id="board"></div>');
+        board = $j('#board').iso({avatar_count: 2});
+        avatar_a = board.iso.avatars[0];
+        avatar_b = board.iso.avatars[1];
       });
       
       it('avatars can be positioned independently', function() {
@@ -87,6 +88,7 @@ Screw.Unit(function(c) { with(c) {
         avatar_b.determine_path(0,0,0,2,0);
         avatar_b.follow();
         expect(avatar_b.position).to(equal, [0,2,0]);
+        $j('#board').remove();
       });
     });
   });
