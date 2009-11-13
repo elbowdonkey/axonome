@@ -7,6 +7,10 @@ html {
   display: none;
 }
 
+div#screw_unit_runner {
+  width:600px;
+}
+
 div#screw_unit_runner.show_all .description, div#screw_unit_runner.show_all .example {
   display: block;
 }

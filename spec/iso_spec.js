@@ -73,5 +73,45 @@ Screw.Unit(function(c) { with(c) {
       // $j('#tile_' + waypoints[3].id).click();
       // expect(board.iso.avatar.position).to(equal, [0,0,1]);
     });
+    
+    it('maps iso tile to screen coordinates', function() {
+      /*
+      var new_xp, new_yp;
+      var old_x = 286;
+      var old_y = 12;
+      
+      new_xp = Math.cos(45) * old_x - Math.sin(45) * old_y;
+      new_yp = Math.sin(45) * old_x + Math.cos(45) * old_y;
+      
+      x = Math.cos(30) * new_xp - Math.sin(30) * new_yp;
+      y = Math.sin(30) * new_xp + Math.cos(30) * new_yp;
+      
+      console.log(x, y);
+      */
+      var rotation = 45.0;
+      var elevation = 0.0;
+      var spin = 30.0;
+      var zoom = 0.0;
+      
+      var cos = Math.cos;
+      var sin = Math.sin;
+      
+      right_x = (cos(spin) * cos(rotation) - sin(spin) * sin(rotation) * cos(elevation));
+      right_y = (sin(spin) * cos(rotation) + cos(spin) * sin(rotation) * cos(elevation));
+      front_x = (cos(spin) * sin(rotation) - sin(spin) * -cos(rotation) * cos(elevation));
+      front_y = (sin(spin) * sin(rotation) + cos(spin) * -cos(rotation) * cos(elevation));
+      up_x = -sin(spin) * sin(elevation);
+      up_y = cos(spin) * sin(elevation);
+      
+      console.log(right_x, right_y, front_x, front_y, up_x, up_y);
+      var x = 4;
+      var y = 4;
+      var z = 0;
+      var screen_x = x * right_x + y * front_x + z * up_x;
+      var screen_y = x * right_y + y * front_y + z * up_y;
+      
+      console.log(screen_x*16, screen_y*16);
+      
+    });
   });
 }});
