@@ -78,7 +78,7 @@ function Renderer() {
       for (var i = first_tile_in_map_to_draw_x; i < last_tile_in_map_to_draw_x; i++) {
         var left = ((i * tile_width) + draw_first_tile_here_x);
         var top = ((j * tile_height) + draw_first_tile_here_y);
-        var node = '<div style="font-size:8px;position:absolute;width:' + tile_width + 'px;height:' + tile_height + 'px;top:' + top + 'px;left:' + left + 'px;background-color:' + random_color() + '">' + i + ',' + j + '</div>';
+        var node = '<div style="width:' + tile_width + 'px;height:' + tile_height + 'px;top:' + top + 'px;left:' + left + 'px;background-color:' + random_color() + '">' + i + ',' + j + '</div>';
         $j('#partial').append(node);
       };
     };
@@ -132,13 +132,25 @@ function Renderer() {
     var sin = Math.sin;
     var floor = Math.floor;
     var z = 0;
+    
+    console.time('trig');
     var right_x = (cos(spin) * cos(rotation) - sin(spin) * sin(rotation) * cos(elevation)) * zoom;
     var right_y = (sin(spin) * cos(rotation) + cos(spin) * sin(rotation) * cos(elevation)) * zoom;
     var front_x = (cos(spin) * sin(rotation) - sin(spin) * -cos(rotation) * cos(elevation)) * zoom;
     var front_y = (sin(spin) * sin(rotation) + cos(spin) * -cos(rotation) * cos(elevation)) * zoom;
     var up_x = -sin(spin) * sin(elevation) * zoom;
     var up_y = cos(spin) * sin(elevation) * zoom;
+    console.timeEnd('trig');
     
+    var nodes = '';
+    var node_template = document.createElement('div');
+    node_template.setAttribute('class','cube');
+    node_template.style.width = tile_width + "px";
+    node_template.style.height = tile_height + "px";
+    node_template.style.position = 'absolute';
+    
+    
+    console.time('loop');
     for (var l=0; l < map.layers.length; l++) {
       var layer = map.layers[l];
       for (var x=first_tile_in_map_to_draw_x; x < last_tile_in_map_to_draw_y; x++) {
@@ -147,8 +159,12 @@ function Renderer() {
           var iso_top = floor(x * right_y + y * front_y + z * up_y);
           
           if ($j('#' + id_prefix + '_' + x + '_' + y)[0] == undefined) {
-            var node = '<div id="' + id_prefix + '_' + x + '_' + y + '" style="font-size:8px;position:absolute;width:' + layer.tile_width + 'px;height:' + layer.tile_height + 'px;top:' + iso_top + 'px;left:' + iso_left + 'px;background:url(\'../demos/images/cube_blue.png\');background-position:bottom center;"></div>'
-            container.append(node);
+            //nodes += '<div class="cube" id="' + id_prefix + '_' + x + '_' + y + '" style="font-size:8px;position:absolute;width:' + layer.tile_width + 'px;height:' + layer.tile_height + 'px;top:' + iso_top + 'px;left:' + iso_left + 'px;"></div>';
+            var d = node_template.cloneNode(true);
+            d.setAttribute('id',id_prefix + '_' + x + '_' + y);
+            d.style.left = iso_left + "px";
+            d.style.top = iso_top + "px";
+            container[0].appendChild(d);
           } else {
             $j('#' + id_prefix + '_' + x + '_' + y).css({
               left: iso_left,
@@ -158,6 +174,12 @@ function Renderer() {
         };
       };
     };
+    console.timeEnd('loop');
+    //if (nodes != '') {
+    //  console.time('nodes');
+    //  container.html(nodes);
+    //  console.timeEnd('nodes');
+    //};
   };
 };
 
@@ -226,25 +248,27 @@ Screw.Unit(function(c) { with(c) {
   
   describe("Rendering", function() {
     it("renders a full flat grid", function() {
-      $j('body').append('<div id="full" style="position:absolute;top:10px;left:620px;z-index:999;background-color:pink;overflow:visible;"></div>');
+      $j('body').append('<div class="test_grid" id="full"></div>');
       var r = new Renderer();
       r.full();
     });
     it("renders a partial flat grid", function() {
-      $j('body').append('<div id="partial" style="position:absolute;top:180px;left:620px;z-index:999;background-color:pink;overflow:visible;"></div>');
+      $j('body').append('<div class="test_grid" id="partial"></div>');
       var r = new Renderer();
       // remove two rows and two columns
       r.partial(-64,-64);
     });
     
     it("renders a full isometric grid", function() {
-      $j('body').append('<div id="full_iso" style="position:absolute;top:300px;left:620px;z-index:999;background-color:pink;overflow:visible;"></div>');
+      $j('body').append('<div class="test_grid" id="full_iso"></div>');
+      console.time('full');
       var r = new Renderer();
       r.iso();
+      console.timeEnd('full');
     });
     
     it("renders a partial isometric grid", function() {
-      $j('body').append('<div id="partial_iso" style="position:absolute;top:500px;left:620px;z-index:999;background-color:pink;overflow:visible;"></div>');
+      $j('body').append('<div class="test_grid" id="partial_iso"></div>');
       var r = new Renderer();
       r.iso(0,20);
     });

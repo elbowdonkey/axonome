@@ -38,6 +38,29 @@
   <script src="../lib/screw-unit/screw/interface/progress_bar.js"></script>
   <script src="../lib/screw-unit/screw/interface/runner.js"></script>
 
+  <style type="text/css" media="screen">
+    .test_grid {
+      position:absolute;
+      left:620px;
+      z-index:999;
+      background-color:pink;
+      overflow:visible;
+    }
+    #full {top:10px;}    
+    #partial {top:180px;}
+    #full_iso {top:300px;}
+    #partial_iso {top:500px;}
+    
+    .test_grid div {
+      font-size:8px;
+      position:absolute;
+    }
+    
+    .cube {
+      background:url('../demos/images/cube_blue.png');
+      background-position:bottom center;
+    }
+  </style>
   
   <script type="text/javascript" src="pixelate_spec.js"></script>
 </head>
