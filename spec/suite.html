@@ -40,8 +40,7 @@
 
   <style type="text/css" media="screen">
     .test_grid {
-      position:absolute;
-      left:620px;
+      position:relative;
       z-index:999;
       background-color:pink;
       overflow:visible;
@@ -49,8 +48,14 @@
     #full {top:10px;}    
     #partial {top:180px;}
     #full_iso {top:300px;}
-    #partial_iso {top:500px;}
     
+    #crop {
+      top: 500px;
+      left: 620px;
+      overflow: hidden;
+      position: absolute;
+      background-color:white;
+    }
     .test_grid div {
       font-size:8px;
       position:absolute;
@@ -58,7 +63,7 @@
     
     .cube {
       background:url('../demos/images/cube_blue.png');
-      background-position:bottom center;
+      background-position:top center;
     }
   </style>
   

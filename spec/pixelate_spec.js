@@ -8,7 +8,7 @@ function random_color(format)
 
 function Map() {
   this.layers = [
-    new Layer(0,0,20,20)
+    new Layer(0,0,5,5)
   ];
 }
 
@@ -87,11 +87,12 @@ function Renderer() {
   /* http://awiki.tomasu.org/index.php?title=Pixelate:Issue_12/Isometric_Projection */
   this.iso = function(x1,y1) {
     var layer = this.map.layers[0];
-    var screen_w = 160;
-    var screen_h = 100;
+    var screen_w = 600;
+    var screen_h = 700;
     
     if (arguments.length == 0) {
       var id_prefix = 'full_iso';
+      var crop = $j('#crop');
       var container = $j('#' + id_prefix);
       var last_tile_in_map_to_draw_x = layer.w-1;
       var first_tile_in_map_to_draw_x = 0;
@@ -100,12 +101,14 @@ function Renderer() {
     } else {
       /* rolling in partial rendering */
       var id_prefix = 'partial_iso';
+      var crop = $j('#crop');
       var container = $j('#' + id_prefix);
-      var tile_height = (layer.tile_height/2);
+      var tile_height = (layer.tile_height); // (layer.tile_height/2)
       var tile_width = layer.tile_width;
+      
       container.css({
         width: screen_w,
-        height: screen_h
+        height: parseInt(screen_h/2)+parseInt(tile_height/2)
       });
 
       var x_inverted = -(x1);
@@ -118,7 +121,14 @@ function Renderer() {
       var last_tile_in_map_to_draw_y = parseInt((screen_h - draw_first_tile_here_y)/tile_height)+1;
     }
     
-    var starting_offset = screen_w/2;
+    var starting_left_offset = parseInt(screen_w/4);
+    var starting_top_offset = parseInt(screen_h/8);
+    
+    crop.css({
+      width: parseInt(screen_w/2),
+      height: parseInt(screen_h/4),
+    });
+    
     /* 
       this is just one of the infinite possible perspectives.
       these numbers were derived by brute force, and are viewing
@@ -155,8 +165,8 @@ function Renderer() {
       var layer = map.layers[l];
       for (var x=first_tile_in_map_to_draw_x; x < last_tile_in_map_to_draw_y; x++) {
         for (var y=first_tile_in_map_to_draw_x; y < last_tile_in_map_to_draw_x; y++) {
-          var iso_left = floor(x * right_x + y * front_x + z * up_x) + starting_offset;
-          var iso_top = floor(x * right_y + y * front_y + z * up_y);
+          var iso_left = floor(x * right_x + y * front_x + z * up_x) + starting_left_offset;
+          var iso_top = floor(x * right_y + y * front_y + z * up_y) - starting_top_offset;
           
           if ($j('#' + id_prefix + '_' + x + '_' + y)[0] == undefined) {
             //nodes += '<div class="cube" id="' + id_prefix + '_' + x + '_' + y + '" style="font-size:8px;position:absolute;width:' + layer.tile_width + 'px;height:' + layer.tile_height + 'px;top:' + iso_top + 'px;left:' + iso_left + 'px;"></div>';
@@ -247,31 +257,35 @@ Screw.Unit(function(c) { with(c) {
   });
   
   describe("Rendering", function() {
-    it("renders a full flat grid", function() {
-      $j('body').append('<div class="test_grid" id="full"></div>');
-      var r = new Renderer();
-      r.full();
-    });
-    it("renders a partial flat grid", function() {
-      $j('body').append('<div class="test_grid" id="partial"></div>');
-      var r = new Renderer();
-      // remove two rows and two columns
-      r.partial(-64,-64);
-    });
-    
-    it("renders a full isometric grid", function() {
-      $j('body').append('<div class="test_grid" id="full_iso"></div>');
-      console.time('full');
-      var r = new Renderer();
-      r.iso();
-      console.timeEnd('full');
-    });
+    //it("renders a full flat grid", function() {
+    //  $j('body').append('<div class="test_grid" id="full"></div>');
+    //  var r = new Renderer();
+    //  r.full();
+    //});
+    //it("renders a partial flat grid", function() {
+    //  $j('body').append('<div class="test_grid" id="partial"></div>');
+    //  var r = new Renderer();
+    //  // remove two rows and two columns
+    //  r.partial(-64,-64);
+    //});
+    //
+    //it("renders a full isometric grid", function() {
+    //  $j('body').append('<div class="test_grid" id="full_iso"></div>');
+    //  console.time('full');
+    //  var r = new Renderer();
+    //  r.iso();
+    //  console.timeEnd('full');
+    //});
     
     it("renders a partial isometric grid", function() {
-      $j('body').append('<div class="test_grid" id="partial_iso"></div>');
+      $j('body').append('<div id="crop"><div class="test_grid" id="partial_iso"></div></div>');
       var r = new Renderer();
-      r.iso(0,20);
+      r.iso(0,40);
     });
+	
+	// the amount of node being rendered is tied to the container size
+	// it should only render nodes within the confines of the container
+
   });
 }});
 
