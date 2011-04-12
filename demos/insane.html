@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>axono.me demos</title>
+  <style type="text/css" media="screen">
+    #demo {
+      position:relative;
+      width:320px;
+      height:240px;
+      background-color:#000;
+    }
+    .pixel {
+      #EB6C3F
+      position:absolute;
+      width:12px;
+      height:12px;
+      background:url('images/circle.png') no-repeat bottom left;
+      background-color:black;
+    }
+  </style>
+  <script src="../lib/jquery/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../lib/jquery/jquery.shortkeys.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+  /*
+    Inspired by:
+    http://awiki.tomasu.org/index.php?title=Pixelate:Issue%5F12/Isometric%5FProjection
+  */
+  
+  $(document).ready(function(){
+    //var rotation = 0.45; // DO NOT CHANGE - THIS IS ISO BABY!@
+    //var spin = 0.30; // DO NOT CHANGE - THIS IS ISO BABY!@
+    var rotation = 0.0;
+    var spin = 0.0;
+    var zoom = 10.0;
+    
+    //var pixel_queue = $('div').queue('movement');
+    
+    function render(rotation,spin,zoom,fresh) {
+      if (fresh == true) {
+        $('#demo').html('');
+      }
+      
+      var cos = Math.cos;
+      var sin = Math.sin;
+      var elevation = 0.0;
+      var right_x, right_y;
+      var front_x, front_y;
+      var up_x, up_y;
+      var x, y, z;
+      var screen_x, screen_y;
+      
+      var right_x = (cos(spin) * cos(rotation) - sin(spin) * sin(rotation) * cos(elevation)) * zoom;
+      var right_y = (sin(spin) * cos(rotation) + cos(spin) * sin(rotation) * cos(elevation)) * zoom;
+      var front_x = (cos(spin) * sin(rotation) - sin(spin) * -cos(rotation) * cos(elevation)) * zoom;
+      var front_y = (sin(spin) * sin(rotation) + cos(spin) * -cos(rotation) * cos(elevation)) * zoom;
+      var up_x = -sin(spin) * sin(elevation) * zoom;
+      var up_y = cos(spin) * sin(elevation) * zoom;
+      
+      for (y = 0; y <= 10; y += 2) {
+        for (x = 0; x <= 10; x += 2) {
+          var tile = 'tile_' + x + '_' + y + '_' + z;
+          z = 0;
+          
+          /* Projection onto screen */
+          screen_x = x * right_x + y * front_x + z * up_x;
+          screen_y = x * right_y + y * front_y + z * up_y;
+
+          /* Draw the point with 0,0 in the middle of the screen instead of the
+          * upper left corner
+          */
+          var node_top = Math.floor(screen_y + 240 * 0.5);
+          var node_left = Math.floor(screen_x + 320 * 0.5);
+          if (fresh == true) {
+            $('#demo').append('<div id="'+ tile + '" class="pixel" style="top:' + node_top +'px;left:' + node_left + 'px;"></div>');
+          } else {
+            $('#' + tile).animate({
+              top: node_top,
+              left: node_left
+            });
+          }
+        }
+      }
+    }
+    
+    render(rotation,spin,zoom,true);
+    
+    $(document).shortkeys({
+      'W': function () { spin -= 0.5; render(rotation,spin,zoom);},
+      'S': function () { spin += 0.5; render(rotation,spin,zoom);},
+      'A': function () { rotation -= 0.5; render(rotation,spin,zoom);},
+      'D': function () { rotation += 0.5; render(rotation,spin,zoom);},
+      'Z': function () { zoom += 1.0; render(rotation,spin,zoom);},
+      'X': function () { zoom -= 1.0; render(rotation,spin,zoom);}
+     });
+     
+     /*
+     This right here is madness
+     */
+     /*
+     var initial_x = 0;
+     var initial_y = 0;
+     $(document).mousemove(function(e) {
+       if (initial_x == 0) {
+         initial_x = e.pageX;
+       }
+       
+       if (initial_y == 0) {
+         initial_y = e.pageY;
+        }
+        
+        var x_diff = Math.abs(initial_x - e.pageX);
+        var y_diff = Math.abs(initial_y - e.pageY);
+       
+       if (e.pageX > initial_x) {
+         spin += (x_diff  * 0.001); 
+       } else {
+         spin += (x_diff  * 0.001); 
+       }
+       
+       if (e.pageY > initial_y) {
+          rotation += (y_diff  * 0.001); 
+        } else {
+          rotation -= (y_diff  * 0.001); 
+        }
+       
+       
+       $('#mouseX').html(x_diff);
+       $('#mouseY').html(y_diff);
+       
+       render(rotation,spin,zoom);
+     });
+    */
+  });
+  </script>
+
+</head>
+
+<body>
+	<div id="demo"></div>
+	<span id="rotation"></span>
+	<span id="spin"></span>
+	<span id="mouseX"></span>
+	<span id="mouseY"></span>
+</body>
+</html>

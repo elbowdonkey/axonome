@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>ipad</title>
+    <script src="../lib/jquery/jquery-1.3.2.min.js"></script>
+    <script src="../lib/jquery/jquery.fn.js"></script>
+    <script src="../lib/jquery/jquery.print.js"></script>
+    <script src="../lib/jquery/jquery-ui-1.7.2.custom.min.js"></script>
+    <script src="../lib/jquery/jquery.shortkeys.js" type="text/javascript" charset="utf-8"></script>
+    
+    <style type="text/css" media="screen">
+      body {
+        background-color:grey;
+      }
+      
+      #keys {
+        width:200px;
+        height:100px;
+        position:absolute;
+        right:10px;
+        background-color:#91D8FE;
+        font-size:12px;
+        z-index:9999;
+      }
+      
+      /* 1024x768 */
+      
+      .test_grid {
+        position:relative;
+        z-index:999;
+        background-color:pink;
+        overflow:visible;
+      }
+      
+      #crop {
+        top: 10px;
+        left: 10px;
+        overflow: hidden;
+        position: absolute;
+        background-color:white;
+      }
+      
+      .test_grid div {
+        font-size:8px;
+        position:absolute;
+      }
+
+      .cube {
+        background:url('images/4px_blue.png');
+        background-position:top center;
+      }
+    </style>
+  
+    <script type="text/javascript" charset="utf-8">
+      var $j = jQuery.noConflict();
+    </script>
+  
+    <script type="text/javascript" src="../lib/pixelate.js"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      var r;
+      $j(document).ready(function(){
+        $j('body').append('<div id="crop"><div class="test_grid" id="partial_iso"></div></div>');
+        
+        /*
+        zoom: 90.55000000000031
+        rotation: 2.3559999999999994
+        elevation: 1.0469999999999988
+        */
+        
+        var camera = {
+          zoom: 90.55000000000031,
+          rotation: 2.3559999999999994,
+          elevation: 1.0469999999999988
+        }
+        
+        $j('#zoom').html('zoom: ' + camera["zoom"]);
+        $j('#rotation').html('rotation: ' + camera["rotation"]);
+        $j('#elevation').html('elevation: ' + camera["elevation"]);
+        
+        r = new Renderer(camera);
+        r.iso(0,40);
+        
+        $j(document).keypress(function(e) {
+          console.log(e.which);
+          var key;
+          if (e.which == 119) {
+            key = "W";
+            camera["zoom"] += 0.01;
+          }
+          if (e.which == 115) {
+            key = "S";
+            camera["zoom"] -= 0.01;
+          }
+          
+          if (e.which == 97) {
+            key = "A";
+            camera["rotation"] += 0.01;
+          }
+          if (e.which == 100) {
+            key = "D";
+            camera["rotation"] -= 0.01;
+          }
+          
+          if (e.which == 113) {
+            key = "Q";
+            camera["elevation"] += 0.01;
+          }
+          
+          if (e.which == 101) {
+            key = "E";
+            camera["elevation"] -= 0.01;
+          }
+          
+          $j('#rotation').html('rotation: ' + camera["rotation"]);
+          $j('#zoom').html('zoom: ' + camera["zoom"]);
+          $j('#elevation').html('elevation: ' + camera["elevation"]);
+          
+          $j('#partial_iso').html('');
+          r = new Renderer(camera);
+          r.iso(0,40);
+        })
+      });
+    </script>
+  </head>
+
+  <body>
+
+    <div id="keys">
+      <div id="zoom"></div>
+      <div id="rotation"></div>
+      <div id="elevation"></div>
+    </div>
+  </body>
+</html>
